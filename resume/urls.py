@@ -1,0 +1,56 @@
+from django.conf.urls import url, include
+
+from . import views
+
+
+app_name = 'resume'
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^basic/list/$', views.BasicList.as_view(), name='basic.list'),
+    url(r'^basic/create/$', views.BasicCreate.as_view(), name='basic.create'),
+    url(r'^basic/(?P<pk>[0-9]+)/$', views.BasicDetail.as_view(), name='basic.detail'),
+    url(r'^basic/(?P<pk>[0-9]+)/update/$', views.BasicUpdate.as_view(), name='basic.update'),
+    url(r'^basic/(?P<pk>[0-9]+)/delete/$', views.BasicDelete.as_view(), name='basic.delete'),
+    url(r'^contact/list/$', views.ContactList.as_view(), name='contact.list'),
+    url(r'^contact/create/$', views.ContactCreate.as_view(), name='contact.create'),
+    url(r'^contact/(?P<pk>[0-9]+)/$', views.ContactDetail.as_view(), name='contact.detail'),
+    url(r'^contact/(?P<pk>[0-9]+)/update/$', views.ContactUpdate.as_view(), name='contact.update'),
+    url(r'^contact/(?P<pk>[0-9]+)/delete/$', views.ContactDelete.as_view(), name='contact.delete'),
+    url(r'^letter/list/$', views.LetterList.as_view(), name='letter.list'),
+    url(r'^letter/create/$', views.LetterCreate.as_view(), name='letter.create'),
+    url(r'^letter/(?P<pk>[0-9]+)/$', views.LetterDetail.as_view(), name='letter.detail'),
+    url(r'^letter/(?P<pk>[0-9]+)/update/$', views.LetterUpdate.as_view(), name='letter.update'),
+    url(r'^letter/(?P<pk>[0-9]+)/delete/$', views.LetterDelete.as_view(), name='letter.delete'),
+    url(r'^career/list/$', views.CareerList.as_view(), name='career.list'),
+    url(r'^career/create/$', views.CareerCreate.as_view(), name='career.create'),
+    url(r'^career/(?P<pk>[0-9]+)/$', views.CareerDetail.as_view(), name='career.detail'),
+    url(r'^career/(?P<pk>[0-9]+)/update/$', views.CareerUpdate.as_view(), name='career.update'),
+    url(r'^career/(?P<pk>[0-9]+)/delete/$', views.CareerDelete.as_view(), name='career.delete'),
+    url(r'^education/list/$', views.EducationList.as_view(), name='education.list'),
+    url(r'^education/create/$', views.EducationCreate.as_view(), name='education.create'),
+    url(r'^education/(?P<pk>[0-9]+)/$', views.EducationDetail.as_view(), name='education.detail'),
+    url(r'^education/(?P<pk>[0-9]+)/update/$', views.EducationUpdate.as_view(), name='education.update'),
+    url(r'^education/(?P<pk>[0-9]+)/delete/$', views.EducationDelete.as_view(), name='education.delete'),
+    url(r'^award/list/$', views.AwardList.as_view(), name='award.list'),
+    url(r'^award/create/$', views.AwardCreate.as_view(), name='award.create'),
+    url(r'^award/(?P<pk>[0-9]+)/$', views.AwardDetail.as_view(), name='award.detail'),
+    url(r'^award/(?P<pk>[0-9]+)/update/$', views.AwardUpdate.as_view(), name='award.update'),
+    url(r'^award/(?P<pk>[0-9]+)/delete/$', views.AwardDelete.as_view(), name='award.delete'),
+    url(r'^certificate/list/$', views.CertificateList.as_view(), name='certificate.list'),
+    url(r'^certificate/create/$', views.CertificateCreate.as_view(), name='certificate.create'),
+    url(r'^certificate/(?P<pk>[0-9]+)/$', views.CertificateDetail.as_view(), name='certificate.detail'),
+    url(r'^certificate/(?P<pk>[0-9]+)/update/$', views.CertificateUpdate.as_view(), name='certificate.update'),
+    url(r'^certificate/(?P<pk>[0-9]+)/delete/$', views.CertificateDelete.as_view(), name='certificate.delete'),
+    url(r'^language/list/$', views.LanguageList.as_view(), name='language.list'),
+    url(r'^language/create/$', views.LanguageCreate.as_view(), name='language.create'),
+    url(r'^language/(?P<pk>[0-9]+)/$', views.LanguageDetail.as_view(), name='language.detail'),
+    url(r'^language/(?P<pk>[0-9]+)/update/$', views.LanguageUpdate.as_view(), name='language.update'),
+    url(r'^language/(?P<pk>[0-9]+)/delete/$', views.LanguageDelete.as_view(), name='language.delete'),
+    url(r'^skill/list/$', views.SkillList.as_view(), name='skill.list'),
+    url(r'^skill/create/$', views.SkillCreate.as_view(), name='skill.create'),
+    url(r'^skill/(?P<pk>[0-9]+)/$', views.SkillDetail.as_view(), name='skill.detail'),
+    url(r'^skill/(?P<pk>[0-9]+)/update/$', views.SkillUpdate.as_view(), name='skill.update'),
+    url(r'^skill/(?P<pk>[0-9]+)/delete/$', views.SkillDelete.as_view(), name='skill.delete'),
+
+]

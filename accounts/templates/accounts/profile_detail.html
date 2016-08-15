@@ -1,0 +1,295 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+{% load accounts_filters %}
+{% load gallery_filters %}
+
+{% block content_title %}{% endblock %}
+{% block content_menu %}{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-3">
+        <img class="img-circle" src="{{ profile.picture.url }}" alt="{{ profile }}" width="140" height="140">
+    </div>
+    <div class="col-lg-4">
+        <h2>
+            {% if user != profile.writer %}
+            <a href="{% url 'accounts:profile.friend' username=profile.writer.username %}"><i class="{% is_profile_friend profile username=request.user.username %}" aria-hidden="true" id="id-friend-{{ profile.username }}"></i></a>
+            {% endif %}
+            {{ profile }}
+            {% if user == profile.writer %}
+            <a href="{% url 'resume:index' %}" class="btn btn-default">Resume</a>
+            {% endif %}
+        </h2>
+        {{ profile.nick_name }} / {{ profile.get_type_display }} / {{ profile.get_status_display }}<br/>
+        {% trans 'Portfolio' %} {{ portfolio_list|length }}{% trans 'EA' %} /
+        {% if user == profile.writer %}
+        &nbsp;<i class="fa fa-star-o" aria-hidden="true"></i> <span class="badge">{{ profile.credit_count }}</span>
+        {% else %}
+            &nbsp;<a href="{% url 'accounts:profile.credit' username=profile.writer.username %}">
+                 <i class="{% has_profile_credit profile username=request.user.username %}" aria-hidden="true" id="id-credit-{{ profile.username }}"></i>
+              </a>
+              <span class="badge" id="badge-credit-{{ profile.writer.username }}">{{ profile.credit_count }}</span>
+        {% endif %}
+        <br/>
+        {% for tag in profile.tags.all %}
+            {{ tag.name }}
+        {% empty %}
+        {% endfor %}
+        <br/>
+          <div class="btn-group">
+            <a href="{% url 'accounts:friend.list' username=profile.writer.username %}" class="btn btn-default" id="id_profile_friend_list">
+                Following <span class="badge">{{ profile.writer.accounts_friends.all|length }}</span>
+            </a>
+            <a href="{% url 'accounts:friend.list_for' username=profile.writer.username %}" class="btn btn-default" id="id_profile_friend_list_for">
+                Follower <span class="badge">{{ profile.writer.accounts_friend_friends.all|length }}</span>
+            </a>
+          </div>
+        <p>
+
+        </p>
+    </div>
+    <div class="col-lg-4"><br/>
+        {% if user == profile.writer %}
+        <div class="btn-group">
+            <a href="{% url 'accounts:profile.update' username=user.username %}" class="btn btn-default">{% trans 'Edit Profile' %}</a>
+            <a href="#" class="btn btn-default" id="dropdown-menu-a-setting"><i class="fa fa-cog" aria-hidden="true"></i> {% trans 'Settings' %}</a>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-default" id="dropdown-menu-a-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {% trans 'Log out' %}</a>
+        </div><br/>
+        {% endif %}
+        {{ profile.bio }}
+    </div>
+</div>
+<hr class="featurette-divider">
+<div class="row">
+    <div class="col-lg-4">
+        {% if user == profile.writer %}
+            <a href="{% url 'group:project.create' %}" class="btn btn-default btn-lg btn-block" id="id_project_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Project' %}</a><br/>
+        {% endif %}
+        {% for project in project_list %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'group:project.detail' pk=project.pk %}">{{ project.name|truncatechars:20 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+        <a href="{% url 'group:project.user' %}" class="btn btn-link">More &raquo;</a>
+    </div>
+    <div class="col-lg-4">
+        {% if user == profile.writer %}
+            <a href="{% url 'organization:team.create' %}" class="btn btn-default btn-lg btn-block" id="id_team_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Team' %}</a><br/>
+        {% endif %}
+        {% for team in team_list %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'organization:team.detail' pk=team.pk %}">{{ team.name|truncatechars:20 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+        <a href="{% url 'organization:team.user' %}" class="btn btn-link">More &raquo;</a>
+    </div>
+    <div class="col-lg-4">
+        {% if user == profile.writer %}
+            <a href="{% url 'job:work.create' %}" class="btn btn-default btn-lg btn-block" id="id_work_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Work' %}</a><br/>
+        {% endif %}
+        {% for work in work_list %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'job:work.detail' pk=work.pk %}">{{ work.title|truncatechars:20 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+        <a href="{% url 'job:work.user' %}" class="btn btn-link">More &raquo;</a>
+    </div>
+</div>
+<hr class="featurette-divider">
+<div class="row">
+    <div class="col-lg-2">
+        <h6>{% trans 'Project applied' %}</h6>
+        {% for apply in project_apply %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'group:project.detail' pk=apply.project.pk %}">{{ apply.project.name|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-2">
+        <h6>{% trans 'Team applied' %}</h6>
+        {% for apply in team_apply %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'organization:team.detail' pk=apply.team.pk %}">{{ apply.team.name|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-2">
+        <h6>{% trans 'Work applied' %}</h6>
+        {% for apply in work_apply %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'job:work.detail' pk=apply.work.pk %}">{{ apply.work.title|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-2">
+        <h6>{% trans 'Project bookmarked' %}</h6>
+        {% for bookmark in project_bookmark %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'group:project.detail' pk=bookmark.project.pk %}">{{ bookmark.project.name|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-2">
+        <h6>{% trans 'Team bookmarked' %}</h6>
+        {% for bookmark in team_bookmark %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'organization:team.detail' pk=bookmark.team.pk %}">{{ bookmark.team.name|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-2">
+        <h6>{% trans 'Work bookmarked' %}</h6>
+        {% for bookmark in work_bookmark %}
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+            <a href="{% url 'job:work.detail' pk=bookmark.work.pk %}">{{ bookmark.work.title|truncatechars:10 }}</a>
+            <br/>
+        {% empty %}
+        {% endfor %}
+    </div>
+</div>
+<hr class="featurette-divider">
+    {% if user == profile.writer %}
+        <a href="{% url 'gallery:portfolio.create' %}" class="btn btn-default btn-lg btn-block" id="id_portfolio_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Portfolio' %}</a><br/>
+    {% endif %}
+
+    {% for portfolio in portfolio_list %}
+    {% if forloop.counter0|divisibleby:3 %}
+    <!-- Content Row -->
+    <div class="row">
+    {% endif %}
+        <div class="col-lg-4">
+            <div class="list-group">
+                <a href="{% url 'gallery:portfolio.detail' pk=portfolio.pk %}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        <img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}" width="100%">
+                    </h4>
+                    <p class="list-group-item-text">
+                        {{ portfolio.description|linebreaks }}
+                        <small>by {{ portfolio.writer }} on {{ portfolio.created_time|naturaltime }}</small><br/>
+                        <span class="badge" id="badge-comment-{{ portfolio.pk }}"><i class="{% has_portfolio_comment portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.comment_set.all|length }}</span>
+                        <span class="badge" id="badge-apply-{{ portfolio.pk }}"><i class="{% has_portfolio_like portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.apply_count }}</span>
+                        <span class="badge" id="badge-share-{{ portfolio.pk }}"><i class="{% has_portfolio_share portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.share_count }}</span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+    <!-- /.row -->
+    {% endif %}
+    {% empty %}
+    <p>{% trans 'No item exists yet.' %}</p>
+    {% endfor %}
+
+{% endblock %}
+
+
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("[id^='id-friend']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("[id^='id-credit']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { "csrfmiddlewaretoken": "{{ csrf_token }}"},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+
+    $("[id^='id_profile']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+    $("#id_project_create, #id_team_create, #id_work_create, #id_portfolio_create").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load i18n static %}{% load humanize %}
+<div class="modal fade" role="dialog" id="id_portfolio_comment_delete_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'gallery:comment.delete' portfolio_pk=comment.portfolio.pk pk=comment.pk %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans 'Delete Comment' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete "{{ comment }}"?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="{% url 'gallery:portfolio.detail' pk=comment.portfolio.pk %}" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}
+                    </a>
+                    <input class="btn btn-danger" type="submit" value="{% trans 'Submit' %}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

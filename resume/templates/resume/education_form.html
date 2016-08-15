@@ -1,0 +1,28 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{% trans 'Create Education' %}</h1>{% endblock %}
+{% block content_menu %}
+<a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        {% if '/education/create/' in request.path %}
+        <form class="form-horizontal" action="{% url 'resume:education.create' %}" method="post" enctype="multipart/form-data">
+        {% else %}
+        <form class="form-horizontal" action="{% url 'resume:education.update' pk=education.pk %}" method="post" enctype="multipart/form-data">
+        {% endif %}
+            {% csrf_token %}
+            <div class="form-group {% if form.school.errors %}has-error{% endif %}">{{ form.school }}</div>
+            <div class="form-group {% if form.website.errors %}has-error{% endif %}">{{ form.website }}</div>
+            <div class="form-group {% if form.location.errors %}has-error{% endif %}">{{ form.location }}</div>
+            <div class="form-group {% if form.degree.errors %}has-error{% endif %}">{{ form.degree }}</div>
+            <div class="form-group {% if form.start_date.errors %}has-error{% endif %}">{{ form.start_date }}</div>
+            <div class="form-group {% if form.end_date.errors %}has-error{% endif %}">{{ form.end_date }}</div>
+            <div class="form-group {% if form.details.errors %}has-error{% endif %}">{{ form.details }}</div>
+            <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+        </form>
+    </div>
+{% endblock %}

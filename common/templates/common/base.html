@@ -1,0 +1,312 @@
+{% load i18n static %}{% load humanize %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:'en-us' }}" {% if LANGUAGE_BIDI %}dir="rtl" {% endif %}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="application-name" content="MyArtworks">
+    <meta name="author" content="MINGYUCHOO">
+    <meta name="description" content="">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap -->
+    {% block stylesheet %}
+    <!-- Custom styles for this template -->
+    <link type="text/css" media="all" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/bootstrap.css' %}">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/bootstrap-social.css' %}">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/font-awesome.css' %}">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/playanetworks.css' %}">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/notiny.min.css' %}">
+    <link type="text/css" media="all" rel="stylesheet" href="{% static 'common/css/jquery.typeahead.css' %}">
+
+    {% endblock %}
+
+    {% block extrastyle %}{% endblock %}
+
+    {% block blockbots %}
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+    {% endblock %}
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+{% load i18n %}
+<body>
+{% block navbar %}
+<!-- Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'common:index' %}">MyArtworks</a>
+        </div>
+
+        <div class="navbar-collapse collapse" id="bs-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'gallery:portfolio.tile' %}" id="id_nav-gallery"><i class="fa fa-university" aria-hidden="true"></i> {% trans 'Gallery' %}</a></li>
+                <li><a href="{% url 'job:work.tile' %}" id="id_nav-job"><i class="fa fa-flag" aria-hidden="true"></i> {% trans 'Job' %}</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="typeahead__container">
+                    <div class="typeahead__field">
+                        <span class="typeahead__query">
+                            <input class="js-typeahead-input"
+                                   name="q"
+                                   type="search"
+                                   autofocus
+                                   autocomplete="off">
+                        </span>
+                        <span class="typeahead__button">
+                            <button class="btn btn-default" type="submit">
+                                <span class="typeahead__search-icon"></span>
+                            </button>
+                        </span>
+
+                    </div>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                {% if has_permission or user.is_active %}
+                    <li><a href="{% url 'messagebox:message.list' %}"><i class="fa fa-commenting" aria-hidden="true"></i></a></li>
+                    <li><a href="{% url 'accounts:profile.detail' username=user.username %}"
+                           id="dropdown-menu-a-profile">
+                            <i class="fa fa-user" aria-hidden="true"></i> {{ user.username }}
+                        </a>
+                    </li>
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'admin:index' %}"><cite>{% trans 'Admin' %}</cite></a></li>
+                    {%  endif %}
+                {% else %}
+                    <li><a href="{% url 'accounts:signup' %}" id="nav-a-signup"><i class="fa fa-pencil" aria-hidden="true"></i> {% trans 'Sign up' %}</a></li>
+                    <li><a href="{% url 'accounts:login' %}" id="nav-a-login"><i class="fa fa-sign-in" aria-hidden="true"></i> {% trans 'Log in' %}</a></li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'blog:post.list' section='notice' %}" id="id_nav-notice">{% trans 'Notice' %}</a></li>
+                        <li><a href="{% url 'blog:post.list' section='support' %}">{% trans 'Support' %}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'common:about' %}">{% trans 'About' %}</a></li>
+                        <li><a href="{% url 'common:contact' %}">{% trans 'Contact' %}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+<!-- END navbar -->
+{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+<!-- Container -->
+<div class="container">
+    {% block container %}
+    {% block messages %}
+    {% if messages %}
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-10">
+            {% for message in messages %}
+            <div class="col-lg-offset-1 col-lg-10 alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                <button type="button" class="close" data-dismiss="alert">⨯</button>
+                <h4>{% if message.tags %}{{ message.tags|capfirst }}{% endif %}</h4>
+                <p>{{ message|capfirst }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-10">
+            {% block content_title %}{% endblock %}
+        </div>
+    </div><!-- /.row-title -->
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-10">
+            <p class="bs-component">{% block content_menu %}{% endblock %}</p>
+        </div>
+    </div><!-- /.row-menu -->
+    <div class="row" id="id_row_modal">
+        <div class="col-lg-offset-1 col-lg-10">
+            {% block modals %}{% endblock %}
+        </div>
+    </div><!-- /.row-modal -->
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-10">
+            {% block content %}{% endblock %}
+        </div>
+    </div><!-- /.row-body -->
+    <div class="row" id="id_row_modal_below">
+        <div class="col-lg-offset-1 col-lg-10">
+            {% block modal_below %}{% endblock %}
+        </div>
+    </div><!-- /.row-modal -->
+    {% endblock %}
+</div><!-- /.Container -->
+
+{% block footer %}{% endblock %}
+
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'common/js/jquery-2.2.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/react.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/react-dom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/browser.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/marked.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/playanetworks.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/notiny.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/jquery.typeahead.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Search -->
+    <script>
+
+        var data = {
+            "portfolio": [
+                "Affligem Blonde", "Amsterdam Big Wheel", "Amsterdam Boneshaker IPA", "Amsterdam Downtown Brown", "Amsterdam Oranje Summer White",
+                "Anchor Liberty Ale", "Beaus Lug Tread Lagered Ale", "Beerded Lady", "Belhaven Best Ale", "Big Rock Grasshopper Wheat",
+                "Big Rock India Pportfolio Ale", "Big Rock Traditional Ale", "Big Rock Warthog Ale", "Black Oak Nut Brown Ale", "Black Oak Pportfolio Ale",
+                "Boddingtons Pub Ale", "Boundary Ale", "Caffreys", "Camerons Auburn Ale", "Camerons Cream Ale", "Camerons Rye Pportfolio Ale", "Ceres Strong Ale",
+                "Cheval Blanc", "Crazy Canuck Pportfolio Ale", "Creemore Springs Altbier", "Crosswind Pportfolio Ale", "De Koninck", "Delirium Tremens",
+                "Erdinger Dunkel Weissbier", "Erdinger Weissbier", "Export", "Flying Monkeys Amber Ale", "Flying Monkeys Antigravity",
+                "Flying Monkeys Hoptical", "Flying Monkeys Netherworld", "Flying Monkeys Smashbomb", "Fruli", "Fullers Extra Spec Bitter",
+                "Fullers London Pride", "Granville English Bay Pportfolio", "Granville Robson Hefeweizen", "Griffon Pportfolio Ale", "Griffon Red Ale",
+                "Hacker-Pschorr Hefe Weisse", "Hacker-Pschorr Munchen Gold", "Hockley Dark Ale", "Hoegaarden", "Hops & Robbers IPA", "Houblon Chouffe",
+                "James Ready Original Ale", "Kawartha Cream Ale", "Kawartha Nut Brown Ale", "Kawartha Premium Pportfolio Ale", "Kawartha Raspberry Wheat",
+                "Keiths", "Keiths Cascade Hop Ale", "Keiths Galaxy Hop Ale", "Keiths Hallertauer Hop Ale", "Keiths Hop Series Mixer",
+                "Keiths Premium White", "Keiths Red", "Kilkenny Cream Ale", "Konig Ludwig Weissbier", "Kronenbourg 1664 Blanc", "La Chouffe",
+                "La Messager Red Gluten Free", "Labatt 50 Ale", "Labatt Bass Pportfolio Ale", "Lakeport Ale", "Leffe Blonde", "Leffe Brune",
+                "Legendary Muskoka Oddity", "Liefmans Fruitesse", "Lions Winter Ale", "Maclays", "Mad Tom IPA", "Maisels Weisse Dunkel",
+                "Maisels Weisse Original", "Maredsous Brune", "Matador 2.0 El Toro Bravo", "Mcauslan Apricot Wheat Ale", "Mcewans Scotch Ale",
+                "Mill St Belgian Wit", "Mill St Coffee Porter", "Mill St Stock Ale", "Mill St Tankhouse Ale", "Molson Stock Ale", "Moosehead Pportfolio Ale",
+                "Mort Subite Kriek", "Muskoka Cream Ale", "Muskoka Detour IPA", "Muskoka Harvest Ale", "Muskoka Premium Dark Ale", "Newcastle Brown Ale",
+                "Niagaras Best Blonde Prem", "Okanagan Spring Pportfolio Ale", "Old Speckled Hen", "Ommegang Belgian Pportfolio Ale", "Ommegang Hennepin", "PC IPA",
+                "Palm Amber Ale", "Petrus Blonde", "Petrus Oud Bruin Aged Red", "Publican House Ale", "Red Cap", "Red Falcon Ale", "Rickards Dark",
+                "Rickards Original White", "Rickards Red", "Rodenbach Grand Cru", "Schofferhofer Hefeweizen", "Shock Top Belgian White",
+                "Shock Top Raspberry Wheat", "Shock Top Variety Pack", "Sleeman Cream Ale", "Sleeman Dark", "Sleeman India Pportfolio Ale", "Smithwicks Ale",
+                "Spark House Red Ale", "St. Ambroise India Pportfolio Ale", "St. Ambroise Oatmeal Stout", "St. Ambroise Pportfolio Ale", "Stereovision Kristall Wheat",
+                "Stone Hammer Dark Ale", "Sunny & Share Citrus Saison", "Tetleys English Ale", "Thirsty Beaver Amber Ale", "True North Copper Altbier",
+                "True North Cream Ale", "True North India Pportfolio Ale", "True North Strong", "True North Wunder Weisse", "Twice As Mad Tom IPA",
+                "Unibroue La Fin Du Monde", "Unibroue Maudite", "Unibroue Trois Pistoles", "Upper Canada Dark Ale", "Urthel Hop-It Tripel IPA",
+                "Waterloo IPA", "Weihenstephan Kristalweiss", "Wellington Arkell Best Bitr", "Wellington County Dark Ale", "Wellington Special Pportfolio", "Wells IPA"
+            ],
+            "job": [
+                "AC-DC Premium Lager", "Alpine Lager", "Amstel Light", "Amsterdam (416) Local Lager", "Amsterdam Natural Blonde", "Anchor Steam Beer",
+                "Barking Squirrel Lager", "Bavaria 8.6", "Bavaria 8.6 Red", "Bavaria Grapefruit Radler", "Bavaria Premium Beer", "Bavik Pils",
+                "Baysville Rock Cut Lager", "Becks", "Belle Gueule", "Big Rock Brewmasters Selection", "Big Rock Light Lime", "Big Rock Saaz Republic Pilz",
+                "Birra Castello", "Birra Moretti", "Bitburger", "Black Ice", "Black Label", "Blue", "Blue Light", "Bohemian", "Boris Beer",
+                "Boris Bold Strong Beer", "Boxer Ice", "Boxer Lager", "Brava", "Brava 5.5", "Brava Light", "Brouczech Premium Lager", "Bud Light",
+                "Bud Light Lime", "Bud Light Lime Labatt", "Bud Light Platinum", "Budweiser", "Budweiser Crown", "Budweiser Shot Labatt", "Busch Ice",
+                "Busch Lager", "Busch Light", "Camerons Dark266", "Camerons Lager", "Canadian", "Canadian 67", "Canadian 67 Sublime", "Canadian Coldshots",
+                "Carib Lager", "Carling Ice", "Carling Lager", "Carling Light", "Carlsberg", "Carlsberg Lite", "Cool Beer Lager", "Coors Banquet", "Coors Light",
+                "Corona", "Corona Light", "Cracked Canoe", "Creemore Collection", "Creemore Kellerbier", "Creemore Lager", "Creemore Springs Combo Pack",
+                "Creemore Trad Pilsner", "Creemore Urbock", "Crest Super", "Crystal", "Czechvar", "Dab Maibock", "Dab Original Lager", "Dead Frog Mixed Pack",
+                "Desperados Tequila Beer", "Dos Equis Amber", "Dos Equis Lager", "Dunkel Weihenstephaner", "Faxe Amber Lager", "Faxe Extra Strong - 10",
+                "Faxe Premium Lager - 5", "Faxe Red", "Faxe Strong", "Formosa Springs Draft", "Fosters Import", "Fuerstenberg Prem Pilsener", "Get2gether",
+                "Granville Summer Mingler", "Grolsch Lager 450ml", "Grolsch Premium Lager", "Guinness Black Lager", "Hacker-Pschorr Kellerbier", "Harbin Beer",
+                "Harp Lager", "Heineken", "Henninger Premium Lager", "Hockley Taster Pack", "Hofbraeu Muenchen Original", "Hogsback Vintage Lager",
+                "Hollandia Pilsner", "Holsten Festbock", "Holsten Maibock", "Holsten Premium Bier", "Hopf Weisse", "Hops Bolts India Pportfolio Lager",
+                "James Ready 5.5", "James Ready Ice 6.0", "James Ready Lager", "James Ready Light", "Jever Pilsener", "Keiths Brewmaster", "Keiths Light",
+                "Keystone Ice", "Keystone Lager", "Keystone Light", "King Brewery Dark Lager", "King Brewery Pilsner", "King Brewery Vienna Lager", "Kokanee",
+                "Kozel", "Krombacher Dark", "Krombacher Pils", "Krombacher Weizen", "Kronenbourg 1664", "La Tabachera", "Labatt Extra Dry", "Labatt Genuine Lager",
+                "Labatt Ice", "Lakeport Honey Lager", "Lakeport Ice", "Lakeport Light", "Lakeport Pilsener", "Lakeport Red", "Laker Extra Ice", "Laker Honey",
+                "Laker Ice", "Laker Lager", "Laker Light", "Laker Red", "Laker Strong", "Lech Beer", "Lowenbrau", "Lucky Lager", "Maximum Ice", "Menabrea Blonda",
+                "Michelob Ultra", "Mill St Original Organic", "Millennium Buzz Hemp Beer", "Miller Chill Domestic", "Miller Chill Import",
+                "Miller Genuine Draft Clear", "Molson Canadian Wheat", "Molson Dry", "Molson M", "Molson XXX", "Mongozo Premium Pilsner", "Moosehead Lager",
+                "Moosehead Light", "Moosehead Light Lime", "Moskato Life", "Moskato Life Rose", "Muskoka Craft Lager", "Muskoka Summer Weiss",
+                "Muskoka Survival Pack", "Mythos Beer", "Negra Modelo", "Neustadt Lager", "Octane 7.0", "Okanagan Craft Pack", "Okanagan Springs 1516 Lager",
+                "Okocim Pilsner", "Old Milwaukee", "Old Milwaukee", "Old Milwaukee Ice", "Old Milwaukee Light", "Old Style Pilsner", "Old Vienna",
+                "PC Black Lager", "PC Cerveza", "PC Down Under Amber", "PC Dry", "PC Genuine Lager", "PC Honey Red", "PC Light", "PC Low Carb", "PC Plznr",
+                "Pabst Blue Ribbon", "Pabst Blue Ribbon 5.9", "Pabst Blue Ribbon Light", "Paulaner Hefe-Weissbier", "Pedavena Birra Dolomiti",
+                "Peroni Nastro Azzuro", "Pilsner Urquell", "Pistonhead Kustom Lager", "Poppers Party Pack", "Prison Break Pilsner", "Radeberger Pilsner",
+                "Red Baron", "Red Baron Light", "Red Baron Lime", "Red Baron Platinum Light", "Red Bull", "Red Stripe", "Rickards Blonde", "Rickards Cardigan",
+                "Rickards Fall Taster", "Rickards Lederhosen", "Rickards Oakhouse", "Rickards Shandy", "Rickards Summer Taster Pack", "Rickards Taster Pack",
+                "Rickards Winter Taster Pack", "Rolling Rock Pportfolio Lager", "Rosarda Rose", "Saint Andre", "Samuel Adams Boston Lager", "San Miguel Premium Lager",
+                "Sapporo", "Schnitzerbrau Gluten Free Lager", "Schofferhofer Grapefruit Radlr", "Seagram Mixer Pack", "Shock Top Lemon Shandy", "Sleeman Clear 2.0",
+                "Sleeman Honey Brown Lager", "Sleeman Light", "Sleeman Original Draught", "Sleeman Seasonal Selections", "Sleeman Selections",
+                "Sleeman Silver Creek Lager", "Sol", "Spaten", "St Ambroise Premium Taster", "Staropramen", "Steam Whistle", "Steeler", "Stella Artois",
+                "Stella Legere", "Stiegl Bier", "Stiegl Grapefruit Radler", "Stone Hammer Pilsner", "Stonewall Light", "Tecate", "Tennents Export Lager",
+                "Thurn Taxis Lager", "Thurn Taxis Pilsener", "Thurn Taxis Wolfgang Dunkl", "Tiger Beer", "Trailhead Premium Lager", "True North Blonde Lager",
+                "Tuborg Gold", "Tuborg Pilsner", "Tyskie", "Unibroue Blanche Dechambly", "Upper Canada Lager", "Warsteiner Premium Dunkel", "Warsteiner Premium Verum",
+                "Waterloo Amber Lager", "Waterloo Dark", "Waterloo Grapefruit Radler", "Waterloo Kolsch Sampler", "Waterloo Pilsner", "Weihenstephan Vitus",
+                "Weihenstephaner Hefeweiss", "Wernesgruner Pils", "Winter Mingler", "Wolfgangs German Style Beer", "Xingu Black Beer", "Yanjing Beer", "Zywiec Beer"
+            ],
+            "project": [
+                "Belhaven Black Scottish Stout", "Guinness Draught Bottle", "Guinness Extra Stout", "Guinness Pub Draught", "Murphys Irish Stout",
+                "Muskoka Chocolate Cranberry", "Sleeman Fine Porter"
+            ],
+            "team": [
+                "Boxer Watermelon", "Bud Light Lime Lime-a-rita", "Bud Light Lime Mang-o-rita", "Bud Light Lime Straw-ber-rita", "Colt 45",
+                "DJ Trotters Flirty Daiquiri", "DJ Trotters Lolita", "Four Loko Black Cherry", "Four Loko Fruit Punch", "Four Loko Grape", "Four Loko Lemonade",
+                "Four Loko Peach", "Four Loko Watermelon", "Kensington Watermelon Wheat", "Mad Jack", "Mickeys", "Mojo Fruit Punch", "Mojo Shot Blue Lagoon",
+                "Mojo Shot Melon Ball", "Mojo Shot Sourberry", "Mojo Strawberry & Kiwi", "Mons Abbey Blonde", "Mons Abbey Witte", "Olde English 800",
+                "Pepito Sangria", "Poppers Cran Ice", "Poppers Hard Ice", "Poppers Orange Smoothie", "Poppers Pink", "Poppers Ricco Sangria", "Poppers Wild Ice",
+                "Seagram Iced Lemon Tea", "Seagram Lemon Lime", "Seagram Orange Mango", "Seagram Wildberry", "Seagram Wildberry Extra 6.9", "Twisted Tea", "Wellington Iron Duke"
+            ]
+        };
+
+        typeof $.typeahead === 'function' && $.typeahead({
+            input: ".js-typeahead-input",
+            minLength: 1,
+            maxItem: 15,
+            order: "asc",
+            hint: true,
+            group: {
+                template: "{{group}} beers!"
+            },
+            maxItemPerGroup: 5,
+            backdrop: {
+                "background-color": "#fff"
+            },
+            href: "/gallery/{{group}}/{{display}}/",
+            dropdownFilter: "all",
+            emptyTemplate: 'No result for "{{query}}"',
+            source: {
+                portfolio: {
+                    data: data.portfolio
+                },
+                job: {
+                    data: data.job
+                },
+                "project": {
+                    data: data.project
+                },
+                team: {
+                    data: data.team
+                }
+            },
+            callback: {
+                onClickAfter: function (node, a, item, event) {
+
+                    // href key gets added inside item from options.href configuration
+                    portfoliort(item.href);
+
+                }
+            },
+            debug: false
+        });
+
+    </script>
+
+{% endblock %}
+{% block extrascript %}{% endblock %}
+{% block modalscript %}{% endblock %}
+</body>
+</html>

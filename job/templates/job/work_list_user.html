@@ -1,0 +1,177 @@
+{% extends "job/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load job_filters %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        {% if user.is_authenticated %}
+            <a href="{% url 'job:work.create' %}" class="btn btn-default btn-lg btn-block" id="id_work_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Work' %}</a><br/>
+        {% endif %}
+
+
+        {% if is_paginated %}
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li><a href="{% url 'job:work.user' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+            {% if page_obj.has_next %}
+                <li><a href="{% url 'job:work.user' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+
+
+        {% for work in work_list %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {% if user.is_authenticated %}
+                        {% if work.writer != request.user %}
+                        <a href="{% url 'job:work.friend' pk=work.pk %}"><i class="{% is_friend work username=request.user.username %}" aria-hidden="true" id="i-friend-{{ work.pk }}"></i></a>
+                        {% endif %}
+                        {% if work.writer.profile.status == 'A' %}
+                            &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+                        {% else %}
+                            &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+                        {% endif %}
+                    {% endif %}
+                    <strong>{{ work.title }}</strong>
+                    by <a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a> on {{ work.created_time|naturaltime }}
+                    {% if work.writer == request.user %}
+                        &nbsp;<a href="{% url 'job:work.update' pk=work.id %}" id="id_work_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ work.pk }}"></i></a>
+                        &nbsp;<a href="{% url 'job:work.delete' pk=work.id %}" id="id_work_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ work.pk }}"></i></a>
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    <a href="{% url 'job:work.detail' pk=work.pk %}"><img src="{{ work.image.url }}" alt="{{ work.title }}" width="100%"></a>
+                    <br/>
+                    {{ work.categories }}
+                    <br/>
+                    <p>
+                        &nbsp;&nbsp;<i class="{% has_work_comment work username=request.user.username %}" aria-hidden="true"></i> <span class="badge" id="badge-comment-{{ work.pk }}">{{ work.comment_set.all|length }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.bookmark' pk=work.pk %}"><i class="{% has_work_bookmark work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-bookmark-{{ work.pk }}">{{ work.bookmark_count }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.apply' pk=work.pk %}"><i class="{% has_work_apply work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-apply-{{ work.pk }}">{{ work.apply_count }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.share' pk=work.pk %}"><i class="{% has_work_share work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-share-{{ work.pk }}">{{ work.share_count }}</span>
+                    </p>
+                    <br/>
+                    <a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a> {{ work.description|linebreaks }}<br/>
+                    <hr class="featurette-divider">
+                    {% if user.is_authenticated %}
+                        <form class="form-horizontal" action="{% url 'job:comment.create' pk=work.pk %}"
+                              method="post" enctype="multipart/form-data" id="form-comment">
+                            {% csrf_token %}
+                            <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                                {{ comment_form.content }}
+                            </div>
+                        </form>
+                    {% endif %}<br/>
+                    {% for comment in work.comment_set.all %}
+                        <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+                        {{ comment.content }}
+                        {% if comment.writer == request.user %}
+                            &nbsp;<a href="{% url 'job:comment.delete' work_pk=work.pk pk=comment.pk %}" id="id_work_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        {% endif %}
+                        <br/>
+                    {% empty %}
+                        <p class="text-muted"><i>No comment exists yet.</i></p>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted"><i>No work exists yet.</i></p>
+        {% endfor %}
+
+
+        {% if is_paginated %}
+            <ul class="pager">
+                {% if page_obj.has_previous %}
+                    <li><a href="{% url 'job:work.user' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+                {% if page_obj.has_next %}
+                    <li><a href="{% url 'job:work.user' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+    $("[id^='id_work']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}
+

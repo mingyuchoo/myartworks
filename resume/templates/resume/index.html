@@ -1,0 +1,167 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+
+{% block content_title %}<h1>{% trans 'My Resume' %}</h1>{% endblock %}
+
+{% block content_menu %}
+{% endblock %}
+
+{% block content %}
+    <a href="#" class="btn btn-default"><i class="fa fa-expand" aria-hidden="true"></i> {% trans 'Preview' %}</a>
+    <a href="#" class="btn btn-theme"><i class="fa fa-download" aria-hidden="true"></i> {% trans 'PDF' %}</a>
+    <a href="#" class="btn btn-theme"><i class="fa fa-print" aria-hidden="true"></i> {% trans 'Print' %}</a>
+    <br/><br/>
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Basic Information' %}
+            &nbsp;<a href="{% url 'resume:basic.update' pk=basic.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {{ basic.full_name }}, {{ basic.job_title }}, {{ basic.location }}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Contacts' %}
+            &nbsp;<a href="{% url 'resume:contact.update' pk=contact.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            Email: {{ contact.email }}<br/>
+            Phone: {{ contact.phone1 }}<br/>
+            Other Phone: {{ contact.phone2 }}<br/>
+            Website: {{ contact.website }}<br/>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Letter' %}
+            &nbsp;<a href="{% url 'resume:letter.update' pk=letter.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {{ letter.content }}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Career' %}
+            &nbsp;<a href="{% url 'resume:career.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for career in career_list %}
+            {{ career.company }}, {{ career.website }}, {{ career.location }}, {{ career.position }}, {{ career.start_date }} - {{ career.end_date }}
+            &nbsp;<a href="{% url 'resume:career.update' pk=career.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:career.delete' pk=career.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No career exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Education' %}
+            &nbsp;<a href="{% url 'resume:education.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for education in education_list %}
+            {{ education.school }}, {{ education.website }}, {{ education.location }}, {{ education.degree }}, {{ education.start_date }} - {{ education.end_date }}
+            &nbsp;<a href="{% url 'resume:education.update' pk=education.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:education.delete' pk=education.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            <br/>
+            {{ education.details }}
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No education exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Award' %}
+            &nbsp;<a href="{% url 'resume:award.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for award in award_list %}
+            {{ award.title }}, {{ award.organization }}, {{ award.website }}
+            &nbsp;<a href="{% url 'resume:award.update' pk=award.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:award.delete' pk=award.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No award exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Certificate' %}
+            &nbsp;<a href="{% url 'resume:certificate.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for certificate in certificate_list %}
+            {{ certificate.title }}, {{ certificate.level }}, {{ certificate.organization }}, {{ certificate.website }}, {{ certificate.acquisition_date }}
+            &nbsp;<a href="{% url 'resume:certificate.update' pk=certificate.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:certificate.delete' pk=certificate.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No certificate exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Language' %}
+            &nbsp;<a href="{% url 'resume:language.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for language in language_list %}
+            {{ language.name }}, {{ language.level }}
+            &nbsp;<a href="{% url 'resume:language.update' pk=language.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:language.delete' pk=language.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No language exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Skill' %}
+            &nbsp;<a href="{% url 'resume:skill.create' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {% for skill in skill_list %}
+            {{ skill.name }}, {{ skill.level }}
+            &nbsp;<a href="{% url 'resume:skill.update' pk=skill.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:skill.delete' pk=skill.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% if not forloop.last %}
+                    <hr class="featurette-divider">
+                {% endif %}
+            {% empty %}
+            <p>No skill exists yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

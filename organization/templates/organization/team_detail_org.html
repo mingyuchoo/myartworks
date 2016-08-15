@@ -1,0 +1,162 @@
+{% extends "organization/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load organization_filters %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {% if user.is_authenticated %}
+                    {% if team.writer.profile.status == 'A' %}
+                        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+                    {% else %}
+                        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+                    {% endif %}
+                {% endif %}
+                <strong>{{ team.name }}</strong>
+                by <a href="{% url 'accounts:profile.detail' username=team.writer.username %}">{{ team.writer }}</a> on {{ team.created_time|naturaltime }}
+                {% if team.writer == request.user %}
+                    &nbsp;<a href="{% url 'organization:team.update' pk=team.id %}" id="id_team_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ team.pk }}"></i></a>
+                    &nbsp;<a href="{% url 'organization:team.delete' pk=team.id %}" id="id_team_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ team.pk }}"></i></a>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                {{ team.description|linebreaks }}
+                <p>
+                    &nbsp;&nbsp;<i class="{% has_team_comment team username=request.user.username %}" aria-hidden="true"></i> <span class="badge" id="badge-comment-{{ team.pk }}">{{ team.comment_set.all|length }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'organization:team.bookmark' pk=team.pk %}"><i class="{% has_team_bookmark team username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-bookmark-{{ team.pk }}">{{ team.bookmark_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'organization:team.apply' pk=team.pk %}"><i class="{% has_team_apply team username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-apply-{{ team.pk }}">{{ team.apply_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'organization:team.share' pk=team.pk %}"><i class="{% has_team_share team username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-share-{{ team.pk }}">{{ team.share_count }}</span>
+                </p>
+                {% if user == team.writer or has_membership %}
+                <hr class="featurette-divider">
+                <a href="{% url 'gallery:portfolio.create_for_team' team_pk=team.pk %}" class="btn btn-default btn-lg btn-block" id="id_portfolio_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Portfolio' %}</a><br/>
+                <table class="table table-striped table-hover ">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans 'User' %}</th>
+                        <th>{% trans 'Status' %}</th>
+                        <th>{% trans 'Requested Date' %}</th>
+                        <th>{% trans 'Joined Date' %}</th>
+                        <th>{% trans 'Update' %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for membership in membership_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'accounts:profile.detail' username=membership.member.username %}">{{ membership.member.username }}</a></td>
+                            <td>{{ membership.get_status_display }}</td>
+                            <td>{{ membership.requested_date }}</td>
+                            <td>{% if membership.joined_date %}{{ membership.joined_date }}{% endif %}</td>
+                            <td><a href="{% url 'organization:membership.update' team_pk=membership.team.pk pk=membership.pk %}"
+                                   class="btn btn-link" id="id_team_membership_update">{% trans 'Update' %}</a></td>
+                        </tr>
+                        {% empty %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                <hr class="featurette-divider">
+                {% if user.is_authenticated %}
+                    <form class="form-horizontal" action="{% url 'organization:comment.create' pk=team.pk %}"
+                          method="post" enctype="multipart/form-data" id="form-comment">
+                       {% csrf_token %}
+                        <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                            {{ comment_form.content }}
+                        </div>
+                    </form>
+                {% endif %}<br/>
+                {% for comment in team.comment_set.all %}
+                    <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+                    {{ comment.content }}
+                    {% if comment.writer == request.user %}
+                        &nbsp;<a href="{% url 'organization:comment.delete' team_pk=team.pk pk=comment.pk %}" id="id_team_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <br/>
+                {% empty %}
+                    <p class="text-muted"><i>No comment exists yet.</i></p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+
+    $("[id^='id_team'], #id_portfolio_create").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

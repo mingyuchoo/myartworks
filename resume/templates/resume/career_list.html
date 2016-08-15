@@ -1,0 +1,54 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+
+{% block content_title %}<h1>{% trans 'Career' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Company</th>
+        <th>Website</th>
+        <th>Location</th>
+        <th>Job Position</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Username</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for career in career_list %}
+    <tr>
+        <td>{{ forloop.company }}</td>
+        <td>{{ career.name }}</td>
+        <td>{{ career.website }}</td>
+        <td>{{ career.location }}</td>
+        <td>{{ career.position }}</td>
+        <td>{{ career.start_date }}</td>
+        <td>{{ career.end_date }}</td>
+        <td>{{ career.writer.username }}</td>
+    </tr>
+    {% empty %}
+    <p class="text-muted"><i>No career exists yet.</i></p>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+<ul class="pager">
+    {% if page_obj.has_previous %}
+    <li><a href="{% url 'resume:career.list' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+    {% if page_obj.has_next %}
+    <li><a href="{% url 'resume:career.list' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

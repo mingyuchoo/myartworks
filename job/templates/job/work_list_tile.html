@@ -1,0 +1,136 @@
+{% extends "job/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load job_filters %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'job:work.create' %}" class="btn btn-default btn-lg btn-block" id="id_work_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Work' %}</a><br/>
+    {% endif %}
+
+
+
+    {% if is_paginated %}
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li><a href="{% url 'job:work.tile' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+            {% if page_obj.has_next %}
+                <li><a href="{% url 'job:work.tile' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+
+
+    {% for work in work_list %}
+    {% if forloop.counter0|divisibleby:3 %}
+    <!-- Content Row -->
+    <div class="row">
+    {% endif %}
+        <div class="col-lg-4">
+            <div class="list-group">
+                <a href="{% url 'job:work.detail' pk=work.pk %}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ work.title }}</h4>
+                    <p class="list-group-item-text">
+                        <img src="{{ work.image.url }}" alt="{{ work.title }}" width="100%">
+                        {{ work.description|linebreaks }}<br/>
+                        <small>by {{ work.writer }} on {{ work.created_time|naturaltime }}</small><br/>
+                        <span class="badge" id="badge-comment-{{ work.pk }}"><i class="{% has_work_comment work username=request.user.username %}" aria-hidden="true"></i> {{ work.comment_set.all|length }}</span>
+                        <span class="badge" id="badge-bookmark-{{ work.pk }}"><i class="{% has_work_bookmark work username=request.user.username %}" aria-hidden="true"></i> {{ work.bookmark_count }}</span>
+                        <span class="badge" id="badge-apply-{{ work.pk }}"><i class="{% has_work_apply work username=request.user.username %}" aria-hidden="true"></i> {{ work.apply_count }}</span>
+                        <span class="badge" id="badge-share-{{ work.pk }}"><i class="{% has_work_share work username=request.user.username %}" aria-hidden="true"></i> {{ work.share_count }}</span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+    <!-- /.row -->
+    {% endif %}
+    {% empty %}
+    <p>{% trans 'No item exists yet.' %}</p>
+    {% endfor %}
+
+
+    {% if is_paginated %}
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li><a href="{% url 'job:work.tile' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+            {% if page_obj.has_next %}
+                <li><a href="{% url 'job:work.tile' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+    $("[id^='id_work']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}
+

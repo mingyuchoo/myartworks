@@ -1,0 +1,24 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{{ award.writer.username }}'s {% trans 'Award' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Award' %}
+        </div>
+        <div class="panel-body">
+            {{ award.title }}, {{ award.organization }}, {{ award.website }}
+            &nbsp;<a href="{% url 'resume:award.update' pk=award.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            &nbsp;<a href="{% url 'resume:award.delete' pk=award.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

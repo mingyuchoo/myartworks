@@ -1,0 +1,118 @@
+{% extends "group/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load group_filters %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <a href="{% url 'group:project.create' %}" class="btn btn-default btn-lg btn-block" id="id_project_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Project' %}</a><br/>
+{% endif %}
+{% for project in project_list %}
+{% if forloop.counter0|divisibleby:3 %}
+<!-- Content Row -->
+<div class="row">
+{% endif %}
+    <div class="col-lg-4">
+        <div class="list-group">
+            <a href="{% url 'group:project.detail' pk=project.pk %}" class="list-group-item">
+                <h4 class="list-group-item-heading">{{ project.name }}</h4>
+                <p class="list-group-item-text">
+                    {{ project.description|truncatechars:20 }}
+                    <small>by {{ project.writer }} on {{ project.created_time|naturaltime }}</small><br/>
+                    <span class="badge" id="badge-comment-{{ project.pk }}"><i class="{% has_project_comment project username=request.user.username %}" aria-hidden="true"></i> {{ project.comment_set.all|length }}</span>
+                    <span class="badge" id="badge-bookmark-{{ project.pk }}"><i class="{% has_project_bookmark project username=request.user.username %}" aria-hidden="true"></i> {{ project.bookmark_count }}</span>
+                    <span class="badge" id="badge-apply-{{ project.pk }}"><i class="{% has_project_apply project username=request.user.username %}" aria-hidden="true"></i> {{ project.apply_count }}</span>
+                    <span class="badge" id="badge-share-{{ project.pk }}"><i class="{% has_project_share project username=request.user.username %}" aria-hidden="true"></i> {{ project.share_count }}</span>
+                </p>
+            </a>
+        </div>
+    </div>
+    <!-- /.col-md-4 -->
+    {% if forloop.counter|divisibleby:3 or forloop.last %}
+</div>
+<!-- /.row -->
+{% endif %}
+{% empty %}
+<p>{% trans 'No item exists yet.' %}</p>
+{% endfor %}
+
+
+{% if is_paginated %}
+    <ul class="pager">
+        {% if page_obj.has_previous %}
+            <li><a href="{% url 'group:project.user' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+        {% if page_obj.has_next %}
+            <li><a href="{% url 'group:project.user' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+    $("[id^='id_project']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}
+

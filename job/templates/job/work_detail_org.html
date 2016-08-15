@@ -1,0 +1,150 @@
+{% extends "job/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load job_filters %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<h2>{{ work.title }}
+<span class="text-muted">
+{% if user.is_authenticated %}
+    {% if work.writer != request.user %}
+    <a href ="{% url 'job:work.friend' pk=work.pk %}"><i class="{% is_friend work username=request.user.username %}" aria-hidden="true" id="i-friend-{{ work.pk }}"></i></a>
+    {% endif %}
+    {% if work.writer.profile.status == 'A' %}
+        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+    {% else %}
+        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+    {% endif %}
+{% endif %}
+<a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a> on {{ work.created_time|naturaltime }}
+{% if user.is_authenticated and work.writer == request.user %}
+    &nbsp;<a href="{% url 'job:work.update' pk=work.id %}" id="id_work_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ work.pk }}"></i></a>
+    &nbsp;<a href="{% url 'job:work.delete' pk=work.id %}" id="id_work_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ work.pk }}"></i></a>
+{% endif %}<br/>
+</span>
+</h2>
+<hr class="featurette-divider">
+<div class="row featurette">
+    <div class="col-lg-7 col-lg-push-5">
+        <div class="row">
+            <div class="col-lg-offset-1 col-lg-5">
+                <img class="img-circle" src="{{ work.writer.profile.picture.url }}" alt="{{ work.wirter.username }}" width="140" height="140">
+                <h2><a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a></h2>
+            </div>
+            <div class="col-lg-5">
+                {{ work.writer.profile.bio|linebreaks }}
+                <p><a class="btn btn-default" href="{% url 'accounts:profile.detail' username=work.writer.username %}" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <p class="lead">{{ work.description|linebreaks }}</p>
+        {% if user.is_authenticated %}
+            <form class="form-horizontal" action="{% url 'job:comment.create' pk=work.pk %}"
+                  method="post" enctype="multipart/form-data" id="form-comment">
+                {% csrf_token %}
+                <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                    {{ comment_form.content }}
+                </div>
+            </form>
+        {% endif %}<br/>
+        {% for comment in work.comment_set.all %}
+            <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+            {{ comment.content }}
+            {% if comment.writer == request.user %}
+                &nbsp;<a href="{% url 'job:comment.delete' work_pk=work.pk pk=comment.pk %}" id="id_work_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            {% endif %}
+            <br/>
+        {% empty %}
+            <p class="text-muted"><i>No comment exists yet.</i></p>
+        {% endfor %}
+    </div>
+    <div class="col-lg-5 col-lg-pull-7">
+
+        <img class="img-thumbnail" src="{{ work.image.url }}" alt="{{ work.title }}" width="500px">
+        {{ work.categories }}
+        <p>
+            &nbsp;&nbsp;<i class="{% has_work_comment work username=request.user.username %}" aria-hidden="true"></i> <span class="badge" id="badge-comment-{{ work.pk }}">{{ work.comment_set.all|length }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.bookmark' pk=work.pk %}"><i class="{% has_work_bookmark work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-bookmark-{{ work.pk }}">{{ work.bookmark_count }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.apply' pk=work.pk %}"><i class="{% has_work_apply work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-apply-{{ work.pk }}">{{ work.apply_count }}</span>
+                        &nbsp;&nbsp;<a href="{% url 'job:work.share' pk=work.pk %}"><i class="{% has_work_share work username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-share-{{ work.pk }}">{{ work.share_count }}</span>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+    $("[id^='id_work']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

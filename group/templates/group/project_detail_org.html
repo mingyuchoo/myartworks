@@ -1,0 +1,162 @@
+{% extends "group/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load group_filters %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {% if user.is_authenticated %}
+                    {% if project.writer.profile.status == 'A' %}
+                        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+                    {% else %}
+                        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+                    {% endif %}
+                {% endif %}
+                <strong>{{ project.name }}</strong>
+                by <a href="{% url 'accounts:profile.detail' username=project.writer.username %}">{{ project.writer }}</a> on {{ project.created_time|naturaltime }}
+                {% if project.writer == request.user %}
+                    &nbsp;<a href="{% url 'group:project.update' pk=project.id %}" id="id_project_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ project.pk }}"></i></a>
+                    &nbsp;<a href="{% url 'group:project.delete' pk=project.id %}" id="id_project_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ project.pk }}"></i></a>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                {{ project.description|linebreaks }}
+                <p>
+                    &nbsp;&nbsp;<i class="{% has_project_comment project username=request.user.username %}" aria-hidden="true"></i> <span class="badge" id="badge-comment-{{ project.pk }}">{{ project.comment_set.all|length }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'group:project.bookmark' pk=project.pk %}"><i class="{% has_project_bookmark project username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-bookmark-{{ project.pk }}">{{ project.bookmark_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'group:project.apply' pk=project.pk %}"><i class="{% has_project_apply project username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-apply-{{ project.pk }}">{{ project.apply_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'group:project.share' pk=project.pk %}"><i class="{% has_project_share project username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-share-{{ project.pk }}">{{ project.share_count }}</span>
+                </p>
+                {% if user == project.writer or has_membership %}
+                <hr class="featurette-divider">
+                    <a href="{% url 'gallery:portfolio.create_for_project' project_pk=project.pk %}" class="btn btn-default btn-lg btn-block" id="id_portfolio_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Portfolio' %}</a><br/>
+                    <table class="table table-striped table-hover ">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans 'User' %}</th>
+                        <th>{% trans 'Status' %}</th>
+                        <th>{% trans 'Requested Date' %}</th>
+                        <th>{% trans 'Joined Date' %}</th>
+                        <th>{% trans 'Update' %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for membership in membership_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'accounts:profile.detail' username=membership.member.username %}">{{ membership.member.username }}</a></td>
+                            <td>{{ membership.get_status_display }}</td>
+                            <td>{{ membership.requested_date }}</td>
+                            <td>{% if membership.joined_date %}{{ membership.joined_date }}{% endif %}</td>
+                            <td><a href="{% url 'group:membership.update' project_pk=membership.project.pk pk=membership.pk %}"
+                                   class="btn btn-link" id="id_project_membership_update">{% trans 'Update' %}</a></td>
+                        </tr>
+                        {% empty %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                <hr class="featurette-divider">
+                {% if user.is_authenticated %}
+                    <form class="form-horizontal" action="{% url 'group:comment.create' pk=project.pk %}"
+                            method="post" enctype="multipart/form-data" id="form-comment">
+                    {% csrf_token %}
+                    <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                        {{ comment_form.content }}
+                    </div>
+                </form>
+                {% endif %}<br/>
+                {% for comment in project.comment_set.all %}
+                    <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+                    {{ comment.content }}
+                    {% if comment.writer == request.user %}
+                        &nbsp;<a href="{% url 'group:comment.delete' project_pk=project.pk pk=comment.pk %}" id="id_project_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <br/>
+                {% empty %}
+                    <p class="text-muted"><i>No comment exists yet.</i></p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+    $("[id^='id_project'], #id_portfolio_create").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

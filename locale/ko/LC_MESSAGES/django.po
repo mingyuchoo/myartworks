@@ -1,0 +1,1273 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-13 15:34+0900\n"
+"PO-Revision-Date: 2016-05-13 15:36+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.7\n"
+
+#: accounts/models.py:11
+msgid "Male"
+msgstr "남성"
+
+#: accounts/models.py:12
+msgid "Female"
+msgstr "여성"
+
+#: accounts/models.py:15
+msgid "Available"
+msgstr "작업 가능"
+
+#: accounts/models.py:16
+msgid "Occupied"
+msgstr "작업 중"
+
+#: accounts/templates/accounts/base_site.html:5
+#: accounts/templates/accounts/deleted.html:6
+#: accounts/templates/accounts/password_reset_complete.html:6
+#: accounts/templates/accounts/password_reset_confirm.html:6
+#: accounts/templates/accounts/password_reset_done.html:6
+#: accounts/templates/accounts/password_reset_email.html:6
+#: accounts/templates/accounts/password_reset_form.html:6
+#: common/templates/common/500.html:6 common/templates/common/base_site.html:5
+#: event/templates/event/base_site.html:5
+#: gallery/templates/gallery/base_site.html:5
+#: group/templates/group/base_site.html:5
+#: inbox/templates/inbox/base_site.html:5 job/templates/job/base_site.html:5
+#: news/templates/news/base_site.html:5
+#: notice/templates/notice/base_site.html:5
+#: openboard/templates/openboard/base_site.html:5
+#: promotion/templates/promotion/base_site.html:5
+#: resume/templates/resume/base_site.html:5
+#: support/templates/support/base_site.html:5
+#: todo/templates/todo/base_site.html:5
+msgid "Home"
+msgstr "홈"
+
+#: accounts/templates/accounts/base_site.html:5
+#: accounts/templates/accounts/login.html:37
+#: common/templates/common/base_site.html:5
+#: event/templates/event/base_site.html:5
+#: gallery/templates/gallery/base_site.html:5
+#: group/templates/group/base_site.html:5
+#: inbox/templates/inbox/base_site.html:5 job/templates/job/base_site.html:5
+#: news/templates/news/base_site.html:5
+#: notice/templates/notice/base_site.html:5
+#: openboard/templates/openboard/base_site.html:5
+#: promotion/templates/promotion/base_site.html:5
+#: resume/templates/resume/base_site.html:5
+#: support/templates/support/base_site.html:5
+#: todo/templates/todo/base_site.html:5
+msgid "MyArtworks"
+msgstr "마이아트웍스"
+
+#: accounts/templates/accounts/friend_confirm_delete.html:5
+#: accounts/templates/accounts/friend_detail.html:7
+#: accounts/templates/accounts/friend_form.html:7
+#: event/templates/event/comment_confirm_delete.html:12
+#: event/templates/event/comment_form_create.html:24
+#: event/templates/event/post_confirm_delete.html:12
+#: event/templates/event/post_detail.html:17
+#: gallery/templates/gallery/comment_confirm_delete.html:5
+#: gallery/templates/gallery/portfolio_confirm_delete.html:5
+#: gallery/templates/gallery/portfolio_detail.html:7
+#: gallery/templates/gallery/portfolio_form_create.html:7
+#: gallery/templates/gallery/portfolio_form_update.html:9
+#: group/templates/group/company_confirm_delete.html:5
+#: group/templates/group/company_detail.html:7
+#: group/templates/group/company_form.html:7
+#: group/templates/group/project_confirm_delete.html:5
+#: group/templates/group/project_detail.html:7
+#: group/templates/group/project_form.html:7
+#: group/templates/group/team_confirm_delete.html:5
+#: group/templates/group/team_detail.html:7
+#: group/templates/group/team_form.html:7
+#: inbox/templates/inbox/message_confirm_delete.html:5
+#: inbox/templates/inbox/message_detail.html:7
+#: inbox/templates/inbox/message_form.html:7
+#: job/templates/job/comment_confirm_delete.html:5
+#: job/templates/job/work_confirm_delete.html:5
+#: job/templates/job/work_detail.html:7
+#: job/templates/job/work_form_create.html:7
+#: job/templates/job/work_form_update.html:9
+#: news/templates/news/article_confirm_delete.html:12
+#: news/templates/news/article_detail.html:17
+#: news/templates/news/article_form.html:24
+#: news/templates/news/article_list.html:22
+#: news/templates/news/comment_confirm_delete.html:12
+#: news/templates/news/comment_form_create.html:24
+#: notice/templates/notice/comment_confirm_delete.html:12
+#: notice/templates/notice/comment_form_create.html:24
+#: notice/templates/notice/post_confirm_delete.html:12
+#: notice/templates/notice/post_detail.html:17
+#: openboard/templates/openboard/comment_confirm_delete.html:12
+#: openboard/templates/openboard/comment_form_create.html:24
+#: openboard/templates/openboard/post_confirm_delete.html:12
+#: openboard/templates/openboard/post_detail.html:17
+#: promotion/templates/promotion/comment_confirm_delete.html:12
+#: promotion/templates/promotion/comment_form_create.html:24
+#: promotion/templates/promotion/post_confirm_delete.html:12
+#: promotion/templates/promotion/post_detail.html:17
+#: support/templates/support/comment_confirm_delete.html:12
+#: support/templates/support/comment_form_create.html:24
+#: support/templates/support/post_confirm_delete.html:12
+#: support/templates/support/post_detail.html:17
+#: todo/templates/todo/task_confirm_delete.html:5
+#: todo/templates/todo/task_detail.html:7 todo/templates/todo/task_form.html:7
+msgid "List"
+msgstr "목록"
+
+#: accounts/templates/accounts/friend_confirm_delete.html:12
+#: accounts/templates/accounts/login.html:76
+#: accounts/templates/accounts/profile_form_create.html:70
+#: accounts/templates/accounts/profile_form_update.html:47
+#: event/templates/event/comment_confirm_delete.html:19
+#: event/templates/event/post_confirm_delete.html:19
+#: gallery/templates/gallery/comment_confirm_delete.html:12
+#: gallery/templates/gallery/portfolio_confirm_delete.html:12
+#: group/templates/group/company_confirm_delete.html:12
+#: group/templates/group/project_confirm_delete.html:12
+#: group/templates/group/team_confirm_delete.html:12
+#: inbox/templates/inbox/message_confirm_delete.html:12
+#: job/templates/job/comment_confirm_delete.html:12
+#: job/templates/job/work_confirm_delete.html:12
+#: news/templates/news/article_confirm_delete.html:19
+#: news/templates/news/comment_confirm_delete.html:19
+#: notice/templates/notice/comment_confirm_delete.html:19
+#: notice/templates/notice/post_confirm_delete.html:19
+#: openboard/templates/openboard/comment_confirm_delete.html:19
+#: openboard/templates/openboard/post_confirm_delete.html:19
+#: promotion/templates/promotion/comment_confirm_delete.html:19
+#: promotion/templates/promotion/post_confirm_delete.html:19
+#: resume/templates/resume/award_confirm_delete.html:12
+#: resume/templates/resume/basic_confirm_delete.html:12
+#: resume/templates/resume/career_confirm_delete.html:12
+#: resume/templates/resume/certificate_confirm_delete.html:12
+#: resume/templates/resume/contact_confirm_delete.html:12
+#: resume/templates/resume/education_confirm_delete.html:12
+#: resume/templates/resume/language_confirm_delete.html:12
+#: resume/templates/resume/letter_confirm_delete.html:12
+#: resume/templates/resume/skill_confirm_delete.html:12
+#: support/templates/support/comment_confirm_delete.html:19
+#: support/templates/support/post_confirm_delete.html:19
+#: todo/templates/todo/task_confirm_delete.html:12
+msgid "Cancel"
+msgstr "취소"
+
+#: accounts/templates/accounts/friend_detail.html:5
+msgid "Friend"
+msgstr "친구"
+
+#: accounts/templates/accounts/friend_detail.html:9
+#: accounts/templates/accounts/profile_detail.html:47
+#: event/templates/event/comment_form_create.html:17
+#: event/templates/event/post_detail.html:20
+#: event/templates/event/post_form.html:17
+#: gallery/templates/gallery/portfolio_detail.html:9
+#: group/templates/group/company_detail.html:9
+#: group/templates/group/project_detail.html:9
+#: group/templates/group/team_detail.html:9
+#: inbox/templates/inbox/message_detail.html:9
+#: job/templates/job/work_detail.html:9
+#: news/templates/news/article_detail.html:20
+#: news/templates/news/article_form.html:17
+#: news/templates/news/comment_form_create.html:17
+#: notice/templates/notice/comment_form_create.html:17
+#: notice/templates/notice/post_detail.html:20
+#: notice/templates/notice/post_form.html:17
+#: openboard/templates/openboard/comment_form_create.html:17
+#: openboard/templates/openboard/post_detail.html:20
+#: openboard/templates/openboard/post_form.html:17
+#: promotion/templates/promotion/comment_form_create.html:17
+#: promotion/templates/promotion/post_detail.html:20
+#: promotion/templates/promotion/post_form.html:17
+#: support/templates/support/comment_form_create.html:17
+#: support/templates/support/post_detail.html:20
+#: support/templates/support/post_form.html:17
+#: todo/templates/todo/task_detail.html:9
+msgid "Update"
+msgstr "갱신"
+
+#: accounts/templates/accounts/friend_detail.html:10
+#: event/templates/event/comment_confirm_delete.html:6
+#: event/templates/event/post_confirm_delete.html:6
+#: event/templates/event/post_detail.html:21
+#: gallery/templates/gallery/portfolio_detail.html:10
+#: group/templates/group/company_detail.html:10
+#: group/templates/group/project_detail.html:10
+#: group/templates/group/team_detail.html:10
+#: inbox/templates/inbox/message_detail.html:10
+#: job/templates/job/work_detail.html:10
+#: news/templates/news/article_confirm_delete.html:6
+#: news/templates/news/article_detail.html:21
+#: news/templates/news/comment_confirm_delete.html:6
+#: notice/templates/notice/comment_confirm_delete.html:6
+#: notice/templates/notice/post_confirm_delete.html:6
+#: notice/templates/notice/post_detail.html:21
+#: openboard/templates/openboard/comment_confirm_delete.html:6
+#: openboard/templates/openboard/post_confirm_delete.html:6
+#: openboard/templates/openboard/post_detail.html:21
+#: promotion/templates/promotion/comment_confirm_delete.html:6
+#: promotion/templates/promotion/post_confirm_delete.html:6
+#: promotion/templates/promotion/post_detail.html:21
+#: support/templates/support/comment_confirm_delete.html:6
+#: support/templates/support/post_confirm_delete.html:6
+#: support/templates/support/post_detail.html:21
+#: todo/templates/todo/task_detail.html:10 todo/templates/todo/task_form.html:9
+msgid "Delete"
+msgstr "삭제"
+
+#: accounts/templates/accounts/friend_form.html:5
+msgid "Create Friend"
+msgstr "친구 추가"
+
+#: accounts/templates/accounts/friend_form.html:15
+#: accounts/templates/accounts/profile_form_create.html:71
+#: accounts/templates/accounts/profile_form_update.html:49
+#: accounts/templates/accounts/profile_group_list.html:18
+#: event/templates/event/comment_form_create.html:32
+#: event/templates/event/post_form.html:41
+#: gallery/templates/gallery/comment_form_create.html:15
+#: gallery/templates/gallery/portfolio_form_create.html:16
+#: gallery/templates/gallery/portfolio_form_update.html:17
+#: group/templates/group/company_form.html:16
+#: group/templates/group/project_form.html:19
+#: group/templates/group/team_form.html:19
+#: inbox/templates/inbox/message_form.html:16
+#: job/templates/job/comment_form_create.html:15
+#: job/templates/job/work_form_create.html:17
+#: job/templates/job/work_form_update.html:17
+#: news/templates/news/article_form.html:42
+#: news/templates/news/comment_form_create.html:32
+#: notice/templates/notice/comment_form_create.html:32
+#: notice/templates/notice/post_form.html:41
+#: openboard/templates/openboard/comment_form_create.html:32
+#: openboard/templates/openboard/post_form.html:41
+#: promotion/templates/promotion/comment_form_create.html:32
+#: promotion/templates/promotion/post_form.html:41
+#: resume/templates/resume/award_form.html:21
+#: resume/templates/resume/basic_form.html:21
+#: resume/templates/resume/career_form.html:24
+#: resume/templates/resume/certificate_form.html:23
+#: resume/templates/resume/contact_form.html:22
+#: resume/templates/resume/education_form.html:25
+#: resume/templates/resume/language_form.html:20
+#: resume/templates/resume/letter_form.html:19
+#: resume/templates/resume/skill_form.html:20
+#: support/templates/support/comment_form_create.html:32
+#: support/templates/support/post_form.html:41
+#: todo/templates/todo/task_form.html:19
+msgid "Submit"
+msgstr "승인"
+
+#: accounts/templates/accounts/friend_list.html:5
+msgid "Accounts"
+msgstr "계정"
+
+#: accounts/templates/accounts/friend_list.html:8
+#: event/templates/event/comment_form_create.html:9
+#: event/templates/event/post_form.html:9
+#: event/templates/event/post_list.html:23
+#: gallery/templates/gallery/portfolio_list.html:8
+#: gallery/templates/gallery/portfolio_list_user.html:8
+#: group/templates/group/company_list.html:8
+#: group/templates/group/project_list.html:8
+#: group/templates/group/team_list.html:8
+#: inbox/templates/inbox/message_list.html:8 job/templates/job/work_list.html:8
+#: news/templates/news/article_form.html:9
+#: news/templates/news/article_list.html:23
+#: news/templates/news/comment_form_create.html:9
+#: notice/templates/notice/comment_form_create.html:9
+#: notice/templates/notice/post_form.html:9
+#: notice/templates/notice/post_list.html:24
+#: openboard/templates/openboard/comment_form_create.html:9
+#: openboard/templates/openboard/post_form.html:9
+#: openboard/templates/openboard/post_list.html:23
+#: promotion/templates/promotion/comment_form_create.html:9
+#: promotion/templates/promotion/post_form.html:9
+#: promotion/templates/promotion/post_list.html:23
+#: support/templates/support/comment_form_create.html:9
+#: support/templates/support/post_form.html:9
+#: support/templates/support/post_list.html:23
+#: todo/templates/todo/task_list.html:8
+msgid "Create"
+msgstr "작성"
+
+#: accounts/templates/accounts/login.html:14
+#: accounts/templates/accounts/login.html:23
+#: accounts/templates/accounts/profile_form_create.html:13
+#: accounts/templates/accounts/profile_form_create.html:22
+msgid "Warning"
+msgstr "경고"
+
+#: accounts/templates/accounts/login.html:15
+#: accounts/templates/accounts/profile_form_create.html:14
+msgid "Please correct the error below."
+msgstr "아래 오류를 수정하시기 바랍니다."
+
+#: accounts/templates/accounts/login.html:15
+#: accounts/templates/accounts/profile_form_create.html:14
+msgid "Please correct the errors below."
+msgstr "아래 오류를 수정하시기 바랍니다."
+
+#: accounts/templates/accounts/login.html:44
+#: accounts/templates/accounts/profile_form_create.html:40
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:55
+#: accounts/templates/accounts/login.html:77
+#: common/templates/common/base.html:129
+msgid "Log in"
+msgstr "로그인"
+
+#: accounts/templates/accounts/login.html:70
+msgid "Forgotten your password or username?"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/password_reset_complete.html:7
+msgid "Password reset completed"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/password_reset_confirm.html:7
+msgid "Password reset confirm"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/password_reset_done.html:7
+msgid "Password reset done"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/password_reset_email.html:7
+msgid "Password reset email"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/password_reset_form.html:7
+msgid "Password reset"
+msgstr "비밀번호 또는 사용자이름을 잊어 버렸습니까?"
+
+#: accounts/templates/accounts/profile_detail.html:6
+#: accounts/templates/accounts/profile_form_update.html:6
+#: common/templates/common/base.html:122
+msgid "Profile"
+msgstr "프로필"
+
+#: accounts/templates/accounts/profile_detail.html:9
+#: accounts/templates/accounts/profile_form_update.html:9
+msgid "Profile Update"
+msgstr "프로필 갱신"
+
+#: accounts/templates/accounts/profile_detail.html:25
+msgid "User Information"
+msgstr "사용자 정보"
+
+#: accounts/templates/accounts/profile_detail.html:30
+msgid "Picture"
+msgstr "사진"
+
+#: accounts/templates/accounts/profile_detail.html:31
+msgid "Username"
+msgstr "사용자명"
+
+#: accounts/templates/accounts/profile_detail.html:32
+msgid "First Name"
+msgstr "이름"
+
+#: accounts/templates/accounts/profile_detail.html:33
+msgid "Last Name"
+msgstr "성"
+
+#: accounts/templates/accounts/profile_detail.html:34
+msgid "Email Address"
+msgstr "이메일 주소"
+
+#: accounts/templates/accounts/profile_detail.html:35
+msgid "Last Login Time"
+msgstr "마지막 로그인 시간"
+
+#: accounts/templates/accounts/profile_detail.html:36
+msgid "Join date"
+msgstr "가입일"
+
+#: accounts/templates/accounts/profile_detail.html:37
+msgid "Nick Name"
+msgstr "별명"
+
+#: accounts/templates/accounts/profile_detail.html:38
+msgid "Gender"
+msgstr "성별"
+
+#: accounts/templates/accounts/profile_detail.html:39
+msgid "Birth Date"
+msgstr "생일"
+
+#: accounts/templates/accounts/profile_detail.html:40
+msgid "Phone Number"
+msgstr "전화번호"
+
+#: accounts/templates/accounts/profile_detail.html:41
+msgid "Bio"
+msgstr "소개글"
+
+#: accounts/templates/accounts/profile_detail.html:42
+msgid "Status"
+msgstr "상태"
+
+#: accounts/templates/accounts/profile_detail.html:48
+#: common/templates/common/base.html:86 resume/templates/resume/index.html:5
+msgid "My Resume"
+msgstr "내 이력서"
+
+#: accounts/templates/accounts/profile_detail.html:53
+#: common/templates/common/base.html:69
+msgid "Group"
+msgstr "그룹"
+
+#: accounts/templates/accounts/profile_detail.html:54
+#: gallery/templates/gallery/comment_form_create.html:7
+#: gallery/templates/gallery/portfolio_detail.html:5
+msgid "Portfolio"
+msgstr "포트폴리오"
+
+#: accounts/templates/accounts/profile_detail.html:55
+msgid "Commented"
+msgstr "댓글"
+
+#: accounts/templates/accounts/profile_detail.html:56
+msgid "Loved"
+msgstr "좋아요"
+
+#: accounts/templates/accounts/profile_detail.html:57
+msgid "Bookmarked"
+msgstr "북마크"
+
+#: accounts/templates/accounts/profile_detail.html:58
+msgid "Applied"
+msgstr "지원"
+
+#: accounts/templates/accounts/profile_detail.html:94
+#: gallery/templates/gallery/portfolio_detail.html:27
+#: gallery/templates/gallery/portfolio_list.html:47
+#: gallery/templates/gallery/portfolio_list_user.html:38
+#: group/templates/group/company_detail.html:27
+#: group/templates/group/project_detail.html:27
+#: group/templates/group/team_detail.html:27
+#: inbox/templates/inbox/message_detail.html:27
+#: inbox/templates/inbox/message_list.html:40
+#: job/templates/job/work_detail.html:27 job/templates/job/work_list.html:49
+#: resume/templates/resume/career_detail.html:23
+#: todo/templates/todo/task_detail.html:27
+msgid "Add"
+msgstr "추가"
+
+#: accounts/templates/accounts/profile_form_create.html:51
+#: common/templates/common/base.html:128
+msgid "Sign up"
+msgstr "가입"
+
+#: accounts/templates/accounts/profile_form_update.html:53
+msgid "Deactivate"
+msgstr "계정 비활성화"
+
+#: accounts/templates/accounts/profile_group_list.html:32
+msgid "You are not joined any group yet."
+msgstr "아직 그룹에 가입하지 않으셨습니다."
+
+#: accounts/views.py:229
+msgid "Your friend was created successfully."
+msgstr "친구가 추가되었습니다."
+
+#: accounts/views.py:262
+msgid "Your friend was updated successfully."
+msgstr "친구정보가 수정되었습니다."
+
+#: accounts/views.py:266
+msgid "Your friend was not updated!"
+msgstr ""
+
+#: common/templates/common/404.html:5 common/templates/common/404.html:9
+msgid "Page not found"
+msgstr "페이지를 찾을 수 없습니다."
+
+#: common/templates/common/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr ""
+
+#: common/templates/common/500.html:6
+msgid "Server error"
+msgstr "서버 오류"
+
+#: common/templates/common/500.html:11
+msgid "Server error (500)"
+msgstr "서버 오류 (500)"
+
+#: common/templates/common/500.html:15
+msgid "Server Error <em>(500)</em>"
+msgstr "서버 오류 <em>(500)</em>"
+
+#: common/templates/common/about.html:9 common/templates/common/base.html:135
+msgid "About"
+msgstr "소개"
+
+#: common/templates/common/about.html:11
+msgid "About Us"
+msgstr "멤버 소개"
+
+#: common/templates/common/about.html:17
+msgid "PlayaNetworks"
+msgstr "플라야네트웍스"
+
+#: common/templates/common/about.html:28
+msgid "Our Team"
+msgstr "팀 소개"
+
+#: common/templates/common/about.html:33
+msgid "Mingyu Choo"
+msgstr "추민규"
+
+#: common/templates/common/base.html:64
+#: notice/templates/notice/comment_confirm_delete.html:4
+#: notice/templates/notice/comment_form_create.html:5
+#: notice/templates/notice/post_confirm_delete.html:4
+#: notice/templates/notice/post_detail.html:5
+#: notice/templates/notice/post_form.html:5
+#: notice/templates/notice/post_form.html:24
+#: notice/templates/notice/post_list.html:4
+#: notice/templates/notice/post_list.html:16
+#: notice/templates/notice/post_list.html:22
+msgid "Notice"
+msgstr "공지"
+
+#: common/templates/common/base.html:65
+#: gallery/templates/gallery/portfolio_list.html:5
+msgid "Gallery"
+msgstr "갤러리"
+
+#: common/templates/common/base.html:66 job/templates/job/work_list.html:5
+msgid "Job"
+msgstr "일"
+
+#: common/templates/common/base.html:71
+#: group/templates/group/project_detail.html:5
+#: group/templates/group/project_list.html:5
+msgid "Project"
+msgstr "프로젝트"
+
+#: common/templates/common/base.html:72
+#: group/templates/group/team_detail.html:5
+#: group/templates/group/team_list.html:5
+msgid "Team"
+msgstr "팀"
+
+#: common/templates/common/base.html:73
+#: group/templates/group/company_detail.html:5
+#: group/templates/group/company_list.html:5
+msgid "Company"
+msgstr "회사/조직"
+
+#: common/templates/common/base.html:77
+msgid "My Place"
+msgstr "내 공간"
+
+#: common/templates/common/base.html:79
+msgid "My Friend"
+msgstr "내 친구"
+
+#: common/templates/common/base.html:81
+msgid "My Project"
+msgstr "내 프로젝트"
+
+#: common/templates/common/base.html:82
+msgid "My Team"
+msgstr "나의 팀"
+
+#: common/templates/common/base.html:83
+msgid "My Company"
+msgstr "나의 회사/조직"
+
+#: common/templates/common/base.html:85
+#: gallery/templates/gallery/portfolio_list_user.html:5
+msgid "My Portfolio"
+msgstr "내 포트폴리오"
+
+#: common/templates/common/base.html:91
+msgid "Board"
+msgstr "게시판"
+
+#: common/templates/common/base.html:93 common/templates/common/board.html:4
+msgid "The latest"
+msgstr "최신 게시물"
+
+#: common/templates/common/base.html:95
+msgid "OpenBoard"
+msgstr "자유게시판"
+
+#: common/templates/common/base.html:97 common/templates/common/board.html:27
+#: promotion/templates/promotion/comment_confirm_delete.html:4
+#: promotion/templates/promotion/comment_form_create.html:5
+#: promotion/templates/promotion/post_confirm_delete.html:4
+#: promotion/templates/promotion/post_detail.html:5
+#: promotion/templates/promotion/post_form.html:5
+#: promotion/templates/promotion/post_form.html:24
+#: promotion/templates/promotion/post_list.html:4
+#: promotion/templates/promotion/post_list.html:16
+#: promotion/templates/promotion/post_list.html:22
+msgid "Promotion"
+msgstr "홍보"
+
+#: common/templates/common/base.html:98 common/templates/common/board.html:37
+#: event/templates/event/comment_confirm_delete.html:4
+#: event/templates/event/comment_form_create.html:5
+#: event/templates/event/post_confirm_delete.html:4
+#: event/templates/event/post_detail.html:5
+#: event/templates/event/post_form.html:5
+#: event/templates/event/post_form.html:24
+#: event/templates/event/post_list.html:4
+#: event/templates/event/post_list.html:16
+#: event/templates/event/post_list.html:22
+msgid "Event"
+msgstr "이벤트"
+
+#: common/templates/common/base.html:99 common/templates/common/board.html:47
+#: support/templates/support/comment_confirm_delete.html:4
+#: support/templates/support/comment_form_create.html:5
+#: support/templates/support/post_confirm_delete.html:4
+#: support/templates/support/post_detail.html:5
+#: support/templates/support/post_form.html:5
+#: support/templates/support/post_form.html:24
+#: support/templates/support/post_list.html:4
+#: support/templates/support/post_list.html:16
+#: support/templates/support/post_list.html:22
+msgid "Support"
+msgstr "지원"
+
+#: common/templates/common/base.html:103
+msgid "Admin"
+msgstr "관리자"
+
+#: common/templates/common/base.html:113
+msgid "Search"
+msgstr "검색"
+
+#: common/templates/common/base.html:123
+msgid "Settings"
+msgstr "설정"
+
+#: common/templates/common/base.html:124
+msgid "Log out"
+msgstr "로그아웃"
+
+#: common/templates/common/base.html:134
+#: news/templates/news/article_confirm_delete.html:4
+#: news/templates/news/article_detail.html:5
+#: news/templates/news/article_form.html:5
+#: news/templates/news/article_list.html:4
+#: news/templates/news/article_list.html:16
+#: news/templates/news/comment_confirm_delete.html:4
+#: news/templates/news/comment_form_create.html:5
+msgid "News"
+msgstr "뉴스"
+
+#: common/templates/common/base.html:136 common/templates/common/contact.html:9
+#: resume/templates/resume/contact_detail.html:5
+msgid "Contact"
+msgstr "연락처"
+
+#: common/templates/common/base.html:214 common/templates/common/privacy.html:9
+#: common/templates/common/privacy.html:11
+msgid "Privacy Policy"
+msgstr "개인정보 정책"
+
+#: common/templates/common/base.html:215 common/templates/common/terms.html:9
+msgid "Terms"
+msgstr "약관"
+
+#: common/templates/common/board.html:9
+msgid "The latest board contents"
+msgstr "최신 게시물"
+
+#: common/templates/common/board.html:17
+#: openboard/templates/openboard/comment_confirm_delete.html:4
+#: openboard/templates/openboard/comment_form_create.html:5
+#: openboard/templates/openboard/post_confirm_delete.html:4
+#: openboard/templates/openboard/post_detail.html:5
+#: openboard/templates/openboard/post_form.html:5
+#: openboard/templates/openboard/post_form.html:24
+#: openboard/templates/openboard/post_list.html:4
+#: openboard/templates/openboard/post_list.html:16
+msgid "Openboard"
+msgstr "자유게시판"
+
+#: common/templates/common/contact.html:12
+#: common/templates/common/thanks.html:9 common/templates/common/thanks.html:12
+msgid "Contact Us"
+msgstr "연락처"
+
+#: common/templates/common/logout.html:10
+msgid "Yes"
+msgstr "예"
+
+#: common/templates/common/password_change.html:9
+msgid "Index"
+msgstr "첫페이지"
+
+#: common/templates/common/password_change.html:11
+msgid "Log in again"
+msgstr "로그인 다시 하기"
+
+#: common/templates/common/terms.html:11
+msgid "Terms of Us"
+msgstr "약관"
+
+#: core/forms/fields.py:31
+#, python-format
+msgid "Dropdown a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: event/templates/event/comment_confirm_delete.html:9
+#: event/templates/event/post_confirm_delete.html:9
+#: notice/templates/notice/comment_confirm_delete.html:9
+#: notice/templates/notice/post_confirm_delete.html:9
+#: openboard/templates/openboard/comment_confirm_delete.html:9
+#: openboard/templates/openboard/post_confirm_delete.html:9
+#: promotion/templates/promotion/comment_confirm_delete.html:9
+#: promotion/templates/promotion/post_confirm_delete.html:9
+#: support/templates/support/comment_confirm_delete.html:9
+#: support/templates/support/post_confirm_delete.html:9
+msgid "Post was deleted"
+msgstr "포스트를 삭제하였습니다."
+
+#: event/templates/event/comment_form_create.html:11
+#: event/templates/event/post_form.html:11
+#: notice/templates/notice/comment_form_create.html:11
+#: notice/templates/notice/post_form.html:11
+#: openboard/templates/openboard/comment_form_create.html:11
+#: openboard/templates/openboard/post_form.html:11
+#: openboard/templates/openboard/post_list.html:22
+#: promotion/templates/promotion/comment_form_create.html:11
+#: promotion/templates/promotion/post_form.html:11
+#: support/templates/support/comment_form_create.html:11
+#: support/templates/support/post_form.html:11
+msgid "Post"
+msgstr "기사"
+
+#: event/templates/event/comment_form_create.html:21
+#: event/templates/event/post_form.html:21
+#: notice/templates/notice/comment_form_create.html:21
+#: notice/templates/notice/post_form.html:21
+#: openboard/templates/openboard/comment_form_create.html:21
+#: openboard/templates/openboard/post_form.html:21
+#: promotion/templates/promotion/comment_form_create.html:21
+#: promotion/templates/promotion/post_form.html:21
+#: support/templates/support/comment_form_create.html:21
+#: support/templates/support/post_form.html:21
+msgid "Post Form"
+msgstr "기사 양식"
+
+#: event/templates/event/post_form.html:33
+#: news/templates/news/article_form.html:33
+#: notice/templates/notice/post_form.html:33
+#: openboard/templates/openboard/post_form.html:33
+#: promotion/templates/promotion/post_form.html:33
+#: support/templates/support/post_form.html:33
+msgid "Choose file"
+msgstr "파일 선택"
+
+#: event/templates/event/post_list.html:7
+#: news/templates/news/article_list.html:7
+#: notice/templates/notice/post_list.html:7
+#: openboard/templates/openboard/post_list.html:7
+#: promotion/templates/promotion/post_list.html:7
+#: support/templates/support/post_list.html:7
+msgid "Drafts"
+msgstr "초안"
+
+#: event/templates/event/post_list.html:14
+msgid "Drafts of Event"
+msgstr "초안"
+
+#: event/views.py:61 notice/views.py:61 openboard/views.py:61
+#: promotion/views.py:61 support/views.py:61
+msgid "Your post was created successfully."
+msgstr ""
+
+#: event/views.py:95 news/views.py:94 notice/views.py:95 openboard/views.py:95
+#: promotion/views.py:95 support/views.py:95
+msgid "The post \"{}\" was updated successfully."
+msgstr ""
+
+#: event/views.py:139 gallery/views.py:184 job/views.py:167 news/views.py:138
+#: notice/views.py:139 openboard/views.py:139 promotion/views.py:139
+#: support/views.py:139
+msgid "Your comment was created successfully."
+msgstr ""
+
+#: gallery/templates/gallery/comment_form_create.html:5
+#: job/templates/job/comment_form_create.html:5
+msgid "Create Comment"
+msgstr "댓글 작성"
+
+#: gallery/templates/gallery/portfolio_form_create.html:5
+#: gallery/templates/gallery/portfolio_form_update.html:6
+msgid "Create Portfolio"
+msgstr "포트폴리오 작성"
+
+#: gallery/views.py:98
+msgid "Your portfolio was created successfully."
+msgstr ""
+
+#: gallery/views.py:132
+msgid "Your portfolio was updated successfully."
+msgstr ""
+
+#: gallery/views.py:136
+msgid "Your portfolio was not updated!"
+msgstr ""
+
+#: group/templates/group/company_form.html:5
+msgid "Create Company"
+msgstr "회사/조직 생성"
+
+#: group/templates/group/project_form.html:5
+msgid "Create Project"
+msgstr "프로젝트 생성"
+
+#: group/templates/group/team_form.html:5
+msgid "Create Team"
+msgstr "팀 생성"
+
+#: group/views.py:56
+#, fuzzy
+#| msgid "Your task was created successfully."
+msgid "Your company was created successfully."
+msgstr "작업이 성공적으로 생성되었습니다."
+
+#: group/views.py:89
+#, fuzzy
+#| msgid "Your task was updated successfully."
+msgid "Your company was updated successfully."
+msgstr "작업이 성공적으로 수정되었습니다."
+
+#: group/views.py:93
+#, fuzzy
+#| msgid "Your task was not updated!"
+msgid "Your company was not updated!"
+msgstr "작업이 수정되지 않았습니다!"
+
+#: group/views.py:139
+#, fuzzy
+#| msgid "Your task was created successfully."
+msgid "Your team was created successfully."
+msgstr "작업이 성공적으로 생성되었습니다."
+
+#: group/views.py:172
+#, fuzzy
+#| msgid "Your task was updated successfully."
+msgid "Your team was updated successfully."
+msgstr "작업이 성공적으로 수정되었습니다."
+
+#: group/views.py:176
+#, fuzzy
+#| msgid "Your task was not updated!"
+msgid "Your team was not updated!"
+msgstr "작업이 수정되지 않았습니다!"
+
+#: group/views.py:222
+#, fuzzy
+#| msgid "Your friend was created successfully."
+msgid "Your project was created successfully."
+msgstr "친구가 추가되었습니다."
+
+#: group/views.py:255
+#, fuzzy
+#| msgid "Your friend was updated successfully."
+msgid "Your project was updated successfully."
+msgstr "친구정보가 수정되었습니다."
+
+#: group/views.py:259
+#, fuzzy
+#| msgid "Your task was not updated!"
+msgid "Your project was not updated!"
+msgstr "작업이 수정되지 않았습니다!"
+
+#: inbox/templates/inbox/message_detail.html:5
+msgid "Message"
+msgstr "메시지"
+
+#: inbox/templates/inbox/message_form.html:5
+msgid "Create Message"
+msgstr "메시지 작성"
+
+#: inbox/templates/inbox/message_list.html:5
+msgid "Inbox"
+msgstr "메시지함"
+
+#: inbox/views.py:60
+msgid "Your message was created successfully."
+msgstr ""
+
+#: inbox/views.py:94
+msgid "Your message was updated successfully."
+msgstr ""
+
+#: inbox/views.py:98
+msgid "Your message was not updated!"
+msgstr ""
+
+#: job/templates/job/comment_form_create.html:7
+#: job/templates/job/work_detail.html:5
+msgid "Work"
+msgstr "업무"
+
+#: job/templates/job/work_form_create.html:5
+#: job/templates/job/work_form_update.html:6
+msgid "Create Work"
+msgstr "업무 작성"
+
+#: job/views.py:81
+msgid "Your work was created successfully."
+msgstr ""
+
+#: job/views.py:115
+msgid "Your work was updated successfully."
+msgstr ""
+
+#: job/views.py:119
+msgid "Your work was not updated!"
+msgstr ""
+
+#: news/templates/news/article_confirm_delete.html:9
+#: news/templates/news/comment_confirm_delete.html:9
+msgid "Article was deleted"
+msgstr "기사를 삭제하였습니다."
+
+#: news/templates/news/article_form.html:11
+#: news/templates/news/comment_form_create.html:11
+msgid "Article"
+msgstr "기사"
+
+#: news/templates/news/article_form.html:21
+#: news/templates/news/comment_form_create.html:21
+msgid "Article Form"
+msgstr "기사 양식"
+
+#: news/templates/news/article_list.html:14
+msgid "Drafts of News"
+msgstr "뉴스 초안"
+
+#: news/views.py:61
+msgid "Your article was created successfully."
+msgstr ""
+
+#: notice/templates/notice/post_list.html:14
+msgid "Drafts of Notice"
+msgstr "초안"
+
+#: openboard/templates/openboard/post_list.html:14
+msgid "Drafts of Openboard"
+msgstr "초안"
+
+#: promotion/templates/promotion/post_list.html:14
+msgid "Drafts of Promotion"
+msgstr "초안"
+
+#: resume/templates/resume/award_confirm_delete.html:5
+#: resume/templates/resume/award_detail.html:7
+#: resume/templates/resume/award_form.html:7
+#: resume/templates/resume/award_list.html:5
+#: resume/templates/resume/award_list.html:7
+#: resume/templates/resume/basic_confirm_delete.html:5
+#: resume/templates/resume/basic_detail.html:7
+#: resume/templates/resume/basic_form.html:7
+#: resume/templates/resume/basic_list.html:5
+#: resume/templates/resume/basic_list.html:7
+#: resume/templates/resume/career_confirm_delete.html:5
+#: resume/templates/resume/career_detail.html:7
+#: resume/templates/resume/career_form.html:7
+#: resume/templates/resume/career_list.html:7
+#: resume/templates/resume/certificate_confirm_delete.html:5
+#: resume/templates/resume/certificate_detail.html:7
+#: resume/templates/resume/certificate_form.html:7
+#: resume/templates/resume/certificate_list.html:5
+#: resume/templates/resume/certificate_list.html:7
+#: resume/templates/resume/contact_confirm_delete.html:5
+#: resume/templates/resume/contact_detail.html:7
+#: resume/templates/resume/contact_form.html:7
+#: resume/templates/resume/contact_list.html:5
+#: resume/templates/resume/contact_list.html:7
+#: resume/templates/resume/education_confirm_delete.html:5
+#: resume/templates/resume/education_detail.html:7
+#: resume/templates/resume/education_form.html:7
+#: resume/templates/resume/education_list.html:7
+#: resume/templates/resume/language_confirm_delete.html:5
+#: resume/templates/resume/language_detail.html:7
+#: resume/templates/resume/language_form.html:7
+#: resume/templates/resume/language_list.html:5
+#: resume/templates/resume/language_list.html:7
+#: resume/templates/resume/letter_confirm_delete.html:5
+#: resume/templates/resume/letter_detail.html:7
+#: resume/templates/resume/letter_form.html:7
+#: resume/templates/resume/letter_list.html:5
+#: resume/templates/resume/letter_list.html:7
+#: resume/templates/resume/skill_confirm_delete.html:5
+#: resume/templates/resume/skill_detail.html:7
+#: resume/templates/resume/skill_form.html:7
+#: resume/templates/resume/skill_list.html:5
+#: resume/templates/resume/skill_list.html:7
+msgid "Resume"
+msgstr "이력서"
+
+#: resume/templates/resume/award_detail.html:5
+#: resume/templates/resume/award_detail.html:14
+#: resume/templates/resume/index.html:91
+msgid "Award"
+msgstr "수상이력"
+
+#: resume/templates/resume/award_form.html:5
+msgid "Create Award"
+msgstr "수상이력 작성"
+
+#: resume/templates/resume/basic_detail.html:5
+msgid "Basic"
+msgstr "기본 정보"
+
+#: resume/templates/resume/basic_detail.html:14
+#: resume/templates/resume/index.html:18
+msgid "Basic Information"
+msgstr "기본 정보"
+
+#: resume/templates/resume/basic_form.html:5
+msgid "Create Basic"
+msgstr "기본 정보 작성"
+
+#: resume/templates/resume/career_detail.html:5
+#: resume/templates/resume/career_list.html:5
+#: resume/templates/resume/index.html:51
+msgid "Career"
+msgstr "경력"
+
+#: resume/templates/resume/career_form.html:5
+msgid "Create Career"
+msgstr "경력 작성"
+
+#: resume/templates/resume/certificate_detail.html:5
+#: resume/templates/resume/certificate_detail.html:15
+#: resume/templates/resume/index.html:110
+msgid "Certificate"
+msgstr "자격증"
+
+#: resume/templates/resume/certificate_form.html:5
+msgid "Create Certificate"
+msgstr "자격증 작성"
+
+#: resume/templates/resume/contact_detail.html:14
+#: resume/templates/resume/index.html:28
+msgid "Contacts"
+msgstr "연락처"
+
+#: resume/templates/resume/contact_form.html:5
+msgid "Create Contact"
+msgstr "연락처 작성"
+
+#: resume/templates/resume/education_detail.html:5
+#: resume/templates/resume/education_detail.html:14
+#: resume/templates/resume/education_list.html:5
+#: resume/templates/resume/index.html:70
+msgid "Education"
+msgstr "학력"
+
+#: resume/templates/resume/education_form.html:5
+msgid "Create Education"
+msgstr "학력 작성"
+
+#: resume/templates/resume/index.html:11
+msgid "Preview"
+msgstr "미리보기"
+
+#: resume/templates/resume/index.html:12
+msgid "PDF"
+msgstr ""
+
+#: resume/templates/resume/index.html:13
+msgid "Print"
+msgstr "출력"
+
+#: resume/templates/resume/index.html:41
+#: resume/templates/resume/letter_detail.html:5
+#: resume/templates/resume/letter_detail.html:14
+msgid "Letter"
+msgstr "소개글"
+
+#: resume/templates/resume/index.html:129
+#: resume/templates/resume/language_detail.html:5
+#: resume/templates/resume/language_detail.html:14
+msgid "Language"
+msgstr "외국어"
+
+#: resume/templates/resume/index.html:148
+#: resume/templates/resume/skill_detail.html:5
+#: resume/templates/resume/skill_detail.html:14
+msgid "Skill"
+msgstr "기술"
+
+#: resume/templates/resume/language_form.html:5
+msgid "Create Language"
+msgstr "외국어 작성"
+
+#: resume/templates/resume/letter_form.html:5
+msgid "Create Letter"
+msgstr "소개글 작성"
+
+#: resume/templates/resume/skill_form.html:5
+msgid "Create Skill"
+msgstr "기술 작성"
+
+#: resume/views.py:111
+msgid "Your basic was created successfully."
+msgstr ""
+
+#: resume/views.py:144
+msgid "Your basic was updated successfully."
+msgstr ""
+
+#: resume/views.py:148
+msgid "Your basic was not updated!"
+msgstr ""
+
+#: resume/views.py:194
+msgid "Your contact was created successfully."
+msgstr ""
+
+#: resume/views.py:227
+msgid "Your contact was updated successfully."
+msgstr ""
+
+#: resume/views.py:231
+msgid "Your contact was not updated!"
+msgstr ""
+
+#: resume/views.py:277
+msgid "Your letter was created successfully."
+msgstr ""
+
+#: resume/views.py:310
+msgid "Your letter was updated successfully."
+msgstr ""
+
+#: resume/views.py:314
+msgid "Your letter was not updated!"
+msgstr ""
+
+#: resume/views.py:360
+msgid "Your career was created successfully."
+msgstr ""
+
+#: resume/views.py:393
+msgid "Your career was updated successfully."
+msgstr ""
+
+#: resume/views.py:397
+msgid "Your career was not updated!"
+msgstr ""
+
+#: resume/views.py:443
+msgid "Your education was created successfully."
+msgstr ""
+
+#: resume/views.py:476
+msgid "Your education was updated successfully."
+msgstr ""
+
+#: resume/views.py:480
+msgid "Your education was not updated!"
+msgstr ""
+
+#: resume/views.py:526
+msgid "Your award was created successfully."
+msgstr ""
+
+#: resume/views.py:559
+msgid "Your award was updated successfully."
+msgstr ""
+
+#: resume/views.py:563
+msgid "Your award was not updated!"
+msgstr ""
+
+#: resume/views.py:609
+msgid "Your certificate was created successfully."
+msgstr "자격증 정보가 성공적으로 생성되었습니다."
+
+#: resume/views.py:642
+msgid "Your certificate was updated successfully."
+msgstr "자격증 정보가 성공적으로 수정되었습니다."
+
+#: resume/views.py:646
+msgid "Your certificate was not updated!"
+msgstr "자격증 정보가 수정되지 않았습니다!"
+
+#: resume/views.py:692
+msgid "Your language was created successfully."
+msgstr "외국어 정보가 성공적으로 생성되었습니다."
+
+#: resume/views.py:725
+msgid "Your language was updated successfully."
+msgstr "외국어 정보가 성공적으로 수정되었습니다."
+
+#: resume/views.py:729
+msgid "Your language was not updated!"
+msgstr "외국어 정보가 수정되지 않았습니다!"
+
+#: resume/views.py:775
+msgid "Your skill was created successfully."
+msgstr "기술 정보가 성공적으로 생성되었습니다."
+
+#: resume/views.py:808
+msgid "Your skill was updated successfully."
+msgstr "기술 정보가 성공적으로 수정되었습니다."
+
+#: resume/views.py:812
+msgid "Your skill was not updated!"
+msgstr "기술 정보가 수정되지 않았습니다!"
+
+#: support/templates/support/post_list.html:14
+msgid "Drafts of Support"
+msgstr "초안"
+
+#: todo/templates/todo/task_detail.html:5
+msgid "Task"
+msgstr "업무"
+
+#: todo/templates/todo/task_form.html:5
+msgid "Create Task"
+msgstr "업무 작성"
+
+#: todo/templates/todo/task_list.html:5
+msgid "Todo"
+msgstr "할 일"
+
+#: todo/views.py:56
+msgid "Your task was created successfully."
+msgstr "작업이 성공적으로 생성되었습니다."
+
+#: todo/views.py:89
+msgid "Your task was updated successfully."
+msgstr "작업이 성공적으로 수정되었습니다."
+
+#: todo/views.py:93
+msgid "Your task was not updated!"
+msgstr "작업이 수정되지 않았습니다!"

@@ -1,0 +1,47 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+
+{% block content_title %}<h1>{% trans 'Resume' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Level</th>
+        <th>Username</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for language in language_list %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ language.name }}</td>
+        <td>{{ language.level }}</td>
+        <td>{{ language.writer.username }}</td>
+    </tr>
+    {% empty %}
+    <p class="text-muted"><i>No language exists yet.</i></p>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% if is_paginated %}
+<ul class="pager">
+    {% if page_obj.has_previous %}
+    <li><a href="{% resume:language.list %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+    {% if page_obj.has_next %}
+    <li><a href="{% resume:language.list %}?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

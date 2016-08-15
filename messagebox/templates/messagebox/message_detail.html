@@ -1,0 +1,54 @@
+{% extends "messagebox/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <i class="fa {% if message.status == 'S' %}fa-envelope{% else %}fa-envelope-o{% endif %}" aria-hidden="true"></i>
+            <a href="{% url 'accounts:profile.detail' username=message.sender.username %}">{{ message.sender }}</a>가(이)
+            <a href="{% url 'accounts:profile.detail' username=message.receiver.username %}">{{ message.receiver }}</a>에게
+            {{ message.send_time }} {{ message.send_time|time:"TIME_FORMAT" }}에 보낸 메시지
+            <hr class="featurette-divider">
+            {{ message.content }}
+
+            <hr class="featurette-divider">
+            <a class="btn btn-link" href="{% url 'messagebox:message.list' %}">Cancel</a>
+            {% if message.box == 'I' and message.status = 'R' %}
+            <a class="btn btn-default" href="{% url 'messagebox:message.reply' pk=message.pk %}">Reply</a>
+            {% endif %}
+            {% if message.box == 'I' %}
+            <a class="btn btn-info" href="{% url 'messagebox:message.archive' pk=message.pk %}" id="id_message_archive">Archive</a>
+            {% endif %}
+            <a class="btn btn-danger" href="{% url 'messagebox:message.delete' pk=message.pk %}" id="id_message_delete">Delete</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("[id^='id_message']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

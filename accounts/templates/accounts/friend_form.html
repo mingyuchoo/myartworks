@@ -1,0 +1,16 @@
+{% extends "accounts/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{% trans 'Create Friend' %}</h1>{% endblock %}
+{% block content_menu %}{% endblock %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        <form class="form-horizontal" action="{% url 'accounts:friend.create' username=request.user.username %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">{{ form.friend }}</div>
+            <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+        </form>
+    </div>
+{% endblock %}

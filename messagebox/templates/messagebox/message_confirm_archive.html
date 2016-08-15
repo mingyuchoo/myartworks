@@ -1,0 +1,26 @@
+{% load i18n static %}{% load humanize %}
+<div class="modal fade" role="dialog" id="id_message_archive_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'messagebox:message.archive' pk=message.pk %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans 'Archive Message' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to archive "{{ message }}"?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="{% url 'messagebox:message.list' %}" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}
+                    </a>
+                    <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,86 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block navbar %}{% endblock %}
+
+{% block messages %}
+<div class="row">
+{% if form.errors and not form.non_field_errors %}
+<div class="col-lg-6 col-lg-offset-3 alert alert-dismissible alert-warning">
+    <button type="button" class="close" data-dismiss="alert">⨯</button>
+    <h4>{% trans 'Warning' %}!</h4>
+    <p>{% if form.errors.items|length == 1 %}{% trans 'Please correct the error below.' %}{% else %}{% trans 'Please correct the errors below.' %}{% endif %}</p>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <div class="col-lg-6 col-lg-offset-3 alert alert-dismissible alert-warning">
+      <button type="button" class="close" data-dismiss="alert">⨯</button>
+      <h4>{% trans 'Warning' %}!</h4>
+      <p>{{ error }}</p>
+    </div>
+    {% endfor %}
+{% endif %}
+</div>
+{% endblock %}
+
+{% block container %}
+<div class="bs-docs-section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+            <h1 id="forms">
+                {% trans 'MyArtworks' %}
+            </h1>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <p class="errornote">
+      {% blocktrans with username=request.user.username trimmed %}
+      You are authenticated as {{ username }}, but are not authorized to
+      access this page. Would you like to login to a different account?
+      {% endblocktrans %}
+    </p>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="well bs-component">
+                <form class="form-horizontal" action="{{ app_path }}" method="POST" id="login-form">{% csrf_token %}
+                    <fieldset>
+                        <legend><i class="fa fa-lock" aria-hidden="true"></i> {% trans 'Log in' %}</legend>
+                        <div class="form-group">
+                            {{ form.username.errors }}
+                            <label for="id_username" class="col-lg-3 control-label"><i class="fa fa-user" aria-hidden="true"></i> {{ form.username.label }}:</label>
+                            <div class="col-lg-9">{{ form.username|add_class:"form-control"|attr:"placeholder:Username" }}</div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.errors }}
+                            <label for="id_password" class="col-lg-3 control-label"><i class="fa fa-eye" aria-hidden="true"></i> {{ form.password.label }}:</label>
+                            <div class="col-lg-9">{{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}</div>
+                        </div>
+                        <div class="col-lg-9 col-lg-offset-3">
+                            {% url 'accounts:password_reset' as password_reset_url %}
+                            {% if password_reset_url %}
+                            <div class="password-reset-link">
+                                <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-9 col-lg-offset-3">
+                                <a href="{% url 'common:index' %}" class="btn btn-default"><i class="fa fa-times" aria-hidden="true"></i>  {% trans 'Cancel' %}</a>
+                                <button type="submit" class="btn btn-theme"><i class="fa fa-power-off" aria-hidden="true"></i> {% trans 'Log in' %}</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <p><i class="fa fa-question-circle" aria-hidden="true"></i> Don't have an account? <a href="{% url 'accounts:signup' %}">Sign up</a> here.</p>
+                <script type="text/javascript">document.getElementById('id_username').focus()</script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

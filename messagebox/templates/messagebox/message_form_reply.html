@@ -1,0 +1,22 @@
+{% extends "messagebox/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-body">
+            {{ received_message.sender }}가(이) {{ received_message.receiver }}에게 {{ received_message.sent_time }}에 보낸 메시지
+            <hr class="featurette-divider">
+            {{ received_message.content }}
+            <hr class="featurette-divider">
+            <form class="form-horizontal" action="{% url 'messagebox:message.reply' pk=received_message.pk %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <a class="btn btn-link" href="{% url 'messagebox:message.read' pk=received_message.pk %}">{% trans 'Cancel' %}</a>
+                <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

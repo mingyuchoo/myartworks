@@ -1,0 +1,24 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{% trans 'Create Basic' %}</h1>{% endblock %}
+{% block content_menu %}
+<a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        {% if '/basic/create/' in request.path %}
+        <form class="form-horizontal" action="{% url 'resume:basic.create' %}" method="post" enctype="multipart/form-data">
+        {% else %}
+        <form class="form-horizontal" action="{% url 'resume:basic.update' pk=basic.pk %}" method="post" enctype="multipart/form-data">
+        {% endif %}
+            {% csrf_token %}
+            <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">{{ form.full_name}}</div>
+            <div class="form-group {% if form.job_title.errors %}has-error{% endif %}">{{ form.job_title }}</div>
+            <div class="form-group {% if form.location.errors %}has-error{% endif %}">{{ form.location }}</div>
+            <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+        </form>
+    </div>
+{% endblock %}

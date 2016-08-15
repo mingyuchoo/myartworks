@@ -1,0 +1,80 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+
+{% block navbar %}{% endblock %}
+
+{% block container %}
+{% if form.errors and not form.non_field_errors %}
+<div class="alert alert-dismissible alert-warning">
+    <button type="button" class="close" data-dismiss="alert">⨯</button>
+    <h4>{% trans 'Warning' %}!</h4>
+    <p>{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}</p>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<div class="alert alert-dismissible alert-warning">
+    <button type="button" class="close" data-dismiss="alert">⨯</button>
+    <h4>{% trans 'Warning' %}!</h4>
+    <p>{{ error }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="bs-docs-section">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1 id="forms">
+                    <a href="{% url 'common:index' %}">{% trans 'MyArtworks' %}</a>
+                    </h1>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <p class="errornote">
+        {% blocktrans with username=request.user.username trimmed %}
+        You are authenticated as {{ username }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+        {% endblocktrans %}
+    </p>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="well bs-component">
+                <form class="form-horizontal" action="{{ request.path }}" method="POST" id="login-form">{% csrf_token %}
+                    <fieldset>
+                        <legend><i class="fa fa-user" aria-hidden="true"></i> {% trans 'Sign up' %}</legend>
+                        {% for field in user_form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label class="col-sm-3 control-label">{{ field.label }}:</label>
+                            <div class="col-sm-9">{{ field|add_class:"form-control" }}</div>
+                            <span class="help-block col-sm-9 col-sm-offset-3">{{ field.help_text }}</span>
+                        </div>
+                        {% endfor %}
+                        {% for field in profile_form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label class="col-sm-3 control-label">{{ field.label }}:</label>
+                            <div class="col-sm-9">{{ field|add_class:"form-control" }}</div>
+                            <span class="help-block col-sm-9 col-sm-offset-3">{{ field.help_text }}</span>
+                        </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <a href="{% url 'common:index' %}" class="btn btn-default"><i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}</a>
+                                <button class="btn btn-theme" type="submit"><i class="fa fa-check" aria-hidden="true"></i> {% trans 'Submit' %}</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <script type="text/javascript">document.getElementById('id_username').focus()</script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

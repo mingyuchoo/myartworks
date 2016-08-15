@@ -1,0 +1,47 @@
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+<div class="modal fade" role="dialog" id="id_project_update_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'group:project.update' pk=project.pk %}" method="post" enctype="multipart/form-data" id="id_form_update">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans 'Update Project' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group {% if form.name.errors %}has-error{% endif %}">{{ form.name }}</div>
+                    <div class="form-group {% if form.description.errors %}has-error{% endif %}">{{ form.description }}</div>
+                    <div class="form-group {% if form.manager.errors %}has-error{% endif %}">{{ form.manager }}</div>
+                    <div class="form-group {% if form.status.errors %}has-error{% endif %}">{{ form.status }}</div>
+                    <div class="form-group {% if form.tags.errors %}has-error{% endif %}">{{ form.tags }}</div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="{% url 'group:project.detail' pk=project.pk %}" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}
+                    </a>
+                    <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'common/js/playanetworks.js' %}"></script>
+<script type="text/javascript">
+    $("#id_form_update").submit(function(event){
+       if(!$("#id_name").val()) {
+           $("#id_name").attr("placeholder", "Type some contents here");
+           $("#id_name").parent().addClass("has-error");
+           event.preventDefault();
+       }
+       if(!$("#id_description").val()) {
+           $("#id_description").attr("placeholder", "Type some contents here");
+           $("#id_description").parent().addClass("has-error");
+           event.preventDefault();
+       }
+       if(!$("#id_manager").val()) {
+           $("#id_manager").parent().addClass("has-error");
+           event.preventDefault();
+       }
+    });
+</script>

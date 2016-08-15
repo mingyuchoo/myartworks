@@ -1,0 +1,27 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}{% endblock %}
+{% block content_menu %}{% endblock %}
+
+
+{% block content %}
+<div class="col-lg-3">
+    <div class="list-group">
+        <a href="#" class="list-group-item">
+            {% trans 'Update Profile' %}
+        </a>
+        <a href="#" class="list-group-item">
+            {% trans 'Update Basic Informaiton' %}
+        </a>
+        <a href="#" class="list-group-item">
+            {% trans 'Change Password' %}
+        </a>
+    </div>
+</div>
+<div class="col-lg-offset-1 col-lg-8">
+    <img class="img-circle" src="{{ profile.picture.url }}" alt="{{ profile }}" width="140" height="140">
+    {{ form.as_p }}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "organization/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        <form class="form-horizontal" action="{% url 'organization:comment.create' pk=team.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group {% if form.content.errors %}has-error{% endif %}">{{ form.content }}</div>
+            <a class="btn btn-default" href="{% url 'organization:team.detail' pk=team.pk %}"><i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}</a>
+            <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+        </form>
+    </div>
+{% endblock %}

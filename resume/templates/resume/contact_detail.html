@@ -1,0 +1,25 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{{ contact.writer.username }}'s {% trans 'Contact' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Contacts' %}
+            &nbsp;<a href="{% url 'resume:contact.update' pk=contact.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            Email: {{ contact.email }}<br/>
+            Phone: {{ contact.phone1 }}<br/>
+            Other Phone: {{ contact.phone2 }}<br/>
+            Website: {{ contact.website }}<br/>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}"/>
+{% endblock %}
+
+{% block content_title %}<h1>{% trans 'About Us' %}</h1>{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6" align="center">
+        <h1><a href="http://playanetworks.com" target="_blank">{% trans 'MyArtworks' %}</a></h1>
+        <h2>{% trans 'PlayaNetworks' %}</h2>
+        <p>M{% trans 'MyArtworks' %}를 운영합니다.</p>
+        <ul class="list-inline social-buttons">
+            <li><a href="https://twitter.com/playa_networks/" target="_blank"><i class="fa fa-twitter fa-fw fa-2x"></i></a></li>
+            <li><a href="https://www.facebook.com/playanetworks/" target="_blank"><i class="fa fa-facebook fa-fw fa-2x"></i></a></li>
+            <li><a href="https://www.instagram.com/playa_networks/" target="_blank"><i class="fa fa-instagram fa-fw fa-2x"></i></a></li>
+            <li><a href="https://github.com/playanetworks" target="_blank"><i class="fa fa-github fa-fw fa-2x"></i></a></li>
+        </ul>
+    </div>
+</div><!-- /.row -->
+
+<h2>{% trans 'Our Team' %}</h2>
+<hr>
+<div class="row">
+    <div class="col-lg-6" align="center">
+        <a href="http://mingyuchoo.com" target="_blank"><img class="img-circle" src="{% static 'common/img/mingyuchoo.jpg' %}" alt="Mingyu Choo" width="140" height="140"></a>
+        <h2>{% trans 'Mingyu Choo' %}</h2>
+        <p>{% trans 'MyArtworks' %}를 만들었습니다.</p>
+        <ul class="list-inline social-buttons">
+            <li><a href="https://twitter.com/mingyuchoo/" target="_blank"><i class="fa fa-twitter fa-fw fa-2x"></i></a></li>
+            <li><a href="https://www.facebook.com/mingy.uchoo.9/" target="_blank"><i class="fa fa-facebook fa-fw fa-2x"></i></a></li>
+            <li><a href="https://www.instagram.com/mingyu_choo/" target="_blank"><i class="fa fa-instagram fa-fw fa-2x"></i></a></li>
+            <li><a href="https://github.com/mingyuchoo" target="_blank"><i class="fa fa-github fa-fw fa-2x"></i></a></li>
+        </ul>
+    </div>
+</div><!-- /.row -->
+<hr>
+{% endblock %}

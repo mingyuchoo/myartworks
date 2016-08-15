@@ -1,0 +1,22 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{{ letter.writer.username }}'s {% trans 'Letter' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Letter' %}
+            &nbsp;<a href="{% url 'resume:letter.update' pk=letter.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {{ letter.content }}
+        </div>
+    </div>
+</div>
+{% endblock %}

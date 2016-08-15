@@ -1,0 +1,33 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{{ career.writer.username }}'s {% trans 'Career' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-offset-2 col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4><a href="{% url 'accounts:profile.detail' username=career.writer.username %}">{{ career.writer }}</a> on {{ career.created_time|naturaltime }}</h4>
+            </div>
+            <div class="panel-body">
+                <a href="{% url 'resume:career.detail' pk=career.pk %}">
+                    <img class="featurette-image img-responsive center-block" src="{{ career.image.url }}" alt="{{ career.title }}" width="500px">
+                </a><br/>
+                <p><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i> <a href="#"><span class="badge">42</span></a></p>
+                <a href="{% url 'accounts:profile.detail' username=career.writer.username %}">{{ career.writer }}</a> {{ career.content }}<br/>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'career:comment.create' pk=career.pk %}" class="btn btn-link"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Add' %}</a>
+                {% endif %}<br/>
+                {% for comment in career.comment_set.all %}
+                    <i class="fa fa-commenting-o" aria-hidden="true"></i> <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a> {{ comment.content }}<br>
+                {% empty %}
+                    <p class="text-muted"><i>No comment exists yet.</i></p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

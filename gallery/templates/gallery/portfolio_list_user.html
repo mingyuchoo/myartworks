@@ -1,0 +1,180 @@
+{% extends "gallery/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load gallery_filters %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    {% if user.is_authenticated %}
+        <a href="{% url 'gallery:portfolio.create' %}" class="btn btn-default btn-lg btn-block" id="id_portfolio_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Portfolio' %}</a><br/>
+    {% endif %}
+
+    {% if is_paginated %}
+    <ul class="pager">
+        {% if page_obj.has_previous %}
+            <li><a href="{% url 'gallery:portfolio.user' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+        {% if page_obj.has_next %}
+            <li><a href="{% url 'gallery:portfolio.user' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+
+    {% for portfolio in portfolio_list %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {% if user.is_authenticated %}
+                    {% if portfolio.writer != request.user %}
+                    <a href="{% url 'gallery:portfolio.friend' pk=portfolio.pk %}"><i class="{% is_portfolio_friend portfolio username=request.user.username %}" aria-hidden="true" id="i-friend-{{ portfolio.pk }}"></i></a>
+                    {% endif %}
+                    {% if portfolio.writer.profile.status == 'A' %}
+                        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+                    {% else %}
+                        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+                    {% endif %}
+                {% endif %}
+                    <a href="{% url 'accounts:profile.detail' username=portfolio.writer.username %}">{{ portfolio.writer }}</a> on {{ portfolio.created_time|naturaltime }}
+                {% if user.is_authenticated and portfolio.writer == request.user %}
+                    &nbsp;<a href="{% url 'gallery:portfolio.update' pk=portfolio.id %}" id="id_portfolio_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ portfolio.pk }}"></i></a>
+                    &nbsp;<a href="{% url 'gallery:portfolio.delete' pk=portfolio.id %}" id="id_portfolio_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ portfolio.pk }}"></i></a>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                <a href="{% url 'gallery:portfolio.detail' pk=portfolio.pk %}"><img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}" width="100%"></a>
+                <br/>
+                {{ portfolio.categories }}
+                <br/>
+                <p>
+                    &nbsp;&nbsp;<i class="{% has_portfolio_comment portfolio username=request.user.username %}" aria-hidden="true"></i> <span class="badge" id="badge-comment-{{ portfolio.pk }}">{{ portfolio.comment_set.all|length }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'gallery:portfolio.like' pk=portfolio.pk %}"><i class="{% has_portfolio_like portfolio username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-like-{{ portfolio.pk }}">{{ portfolio.like_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'gallery:portfolio.share' pk=portfolio.pk %}"><i class="{% has_portfolio_share portfolio username=request.user.username %}" aria-hidden="true"></i></a> <span class="badge" id="badge-share-{{ portfolio.pk }}">{{ portfolio.share_count }}</span>
+                    &nbsp;&nbsp;<a href="{% url 'gallery:portfolio.report' pk=portfolio.pk %}" class="btn btn-link pull-right" id="id_portfolio_report"><strong>...</strong></a>
+                </p>
+                <a href="{% url 'accounts:profile.detail' username=portfolio.writer.username %}">{{ portfolio.writer }}</a>
+                {% if portfolio.resource %}
+                    <a href="{{ portfolio.resource.url }}"><i class="fa fa-folder" aria-hidden="true"></i></a>
+                {% else %}
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                {% endif %}
+                <br/>
+                {{ portfolio.content }}<br/>
+                <hr class="featurette-divider">
+                {% if user.is_authenticated %}
+                    <form class="form-horizontal" action="{% url 'gallery:comment.create' pk=portfolio.pk %}"
+                          method="post" enctype="multipart/form-data" id="form-comment">
+                        {% csrf_token %}
+                        <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                            {{ comment_form.content }}
+                        </div>
+                    </form>
+                {% endif %}<br/>
+                {% for comment in portfolio.comment_set.all %}
+                    <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+                    {{ comment.content }}
+                    {% if comment.writer == request.user %}
+                        &nbsp;<a href="{% url 'gallery:comment.delete' portfolio_pk=portfolio.pk pk=comment.pk %}" id="id_portfolio_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <br/>
+                {% empty %}
+                    <p class="text-muted"><i>No comment exists yet.</i></p>
+                {% endfor %}
+
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted"><i>No portfolio exists yet.</i></p>
+    {% endfor %}
+
+
+
+    {% if is_paginated %}
+    <ul class="pager">
+        {% if page_obj.has_previous %}
+            <li><a href="{% url 'gallery:portfolio.user' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+        {% if page_obj.has_next %}
+            <li><a href="{% url 'gallery:portfolio.user' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { "csrfmiddlewaretoken": "{{ csrf_token }}"},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+
+    $("[id^='id_portfolio']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+                // $("#id_portfolio_create_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

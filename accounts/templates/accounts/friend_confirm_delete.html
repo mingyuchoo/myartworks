@@ -1,0 +1,12 @@
+{% extends "accounts/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+{% block content_menu %}{% endblock %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <h2>Are you sure you want to delete "{{ friend }}"?</h2>
+    <a class="btn btn-default" href="{% url 'accounts:friend.detail' username=request.user.username pk=friend.pk %}"><i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}</a>
+    <input class="btn btn-danger" type="submit" value="Confirm"/>
+</form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+<div class="modal fade" role="dialog" id="id_category_update_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal" action="{% url 'classification:category.update' pk=category.pk %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans 'Update Category' %}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="{% url 'classification:category.list' %}" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}
+                    </a>
+                    <input class="btn btn-theme" type="submit" value="{% trans 'Submit' %}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

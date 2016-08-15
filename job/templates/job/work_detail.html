@@ -1,0 +1,246 @@
+{% extends "job/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load job_filters %}
+{% load widget_tweaks %}
+{% load gallery_filters %}
+
+{% block content %}
+    <h2>{{ work.name }}
+<span class="text-muted">
+{% if user.is_authenticated %}
+    {#    {% if work.writer != request.user %}#}
+    {#    <a href ="{% url 'job:work.friend' pk=work.pk %}"><i class="{% is_friend work username=request.user.username %}" aria-hidden="true" id="i-friend-{{ work.pk }}"></i></a>#}
+    {#    {% endif %}#}
+    {% if work.writer.profile.status == 'A' %}
+        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+    {% else %}
+        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+    {% endif %}
+{% endif %}
+    <a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a> on {{ work.created_time|naturaltime }}
+    {% if user.is_authenticated and work.writer == request.user %}
+        &nbsp;<a href="{% url 'job:work.update' pk=work.id %}" id="id_work_update"><i class="fa fa-cog"
+                                                                                                 aria-hidden="true"
+                                                                                                 id="i-update-{{ work.pk }}"></i></a>
+        &nbsp;<a href="{% url 'job:work.delete' pk=work.id %}" id="id_work_delete"><i class="fa fa-trash"
+                                                                                                 aria-hidden="true"
+                                                                                                 id="i-delete-{{ work.pk }}"></i></a>
+    {% endif %}<br/>
+</span>
+    </h2>
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-lg-6">
+            <img class="img-thumbnail" src="{{ work.image.url }}" alt="{{ work.name }}" width="500px">
+            <p>
+                &nbsp;&nbsp;<i class="{% has_work_comment work username=request.user.username %}" aria-hidden="true"></i>
+                <span class="badge" id="badge-comment-{{ work.pk }}">{{ work.comment_set.all|length }}</span>
+                &nbsp;&nbsp;<a href="{% url 'job:work.bookmark' pk=work.pk %}"><i
+                    class="{% has_work_bookmark work username=request.user.username %}" aria-hidden="true"></i></a> <span
+                    class="badge" id="badge-bookmark-{{ work.pk }}">{{ work.bookmark_count }}</span>
+                &nbsp;&nbsp;<a href="{% url 'job:work.apply' pk=work.pk %}"><i
+                    class="{% has_work_apply work username=request.user.username %}" aria-hidden="true"></i></a> <span
+                    class="badge" id="badge-apply-{{ work.pk }}">{{ work.apply_count }}</span>
+                &nbsp;&nbsp;<a href="{% url 'job:work.share' pk=work.pk %}"><i
+                    class="{% has_work_share work username=request.user.username %}" aria-hidden="true"></i></a> <span
+                    class="badge" id="badge-share-{{ work.pk }}">{{ work.share_count }}</span>
+            </p>
+            <p>
+                {{ work.categories }}<br/>
+                {{ work.description|linebreaks }}
+                {% for tag in work.tags.all %}
+                    {{ tag.name }}
+                {% empty %}
+                {% endfor %}
+            </p>
+            <hr class="featurette-divider">
+            {% if user.is_authenticated %}
+                <form class="form-horizontal" action="{% url 'job:comment.create' pk=work.pk %}"
+                      method="post" enctype="multipart/form-data" id="form-comment">
+                    {% csrf_token %}
+                    <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                        {{ comment_form.content }}
+                    </div>
+                </form>
+            {% endif %}<br/>
+            {% for comment in work.comment_set.all %}
+                <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+                {{ comment.content }}
+                {% if comment.writer == request.user %}
+                    &nbsp;<a href="{% url 'job:comment.delete' work_pk=work.pk pk=comment.pk %}"
+                             id="id_work_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% endif %}
+                <br/>
+            {% empty %}
+                <p class="text-muted"><i>No comment exists yet.</i></p>
+            {% endfor %}
+        </div>
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-offset-1 col-lg-5">
+                    <img class="img-circle" src="{{ work.writer.profile.picture.url }}"
+                         alt="{{ work.wirter.username }}" width="140" height="140">
+                    <h2>
+                        <a href="{% url 'accounts:profile.detail' username=work.writer.username %}">{{ work.writer }}</a>
+                    </h2>
+                </div>
+                <div class="col-lg-5">
+                    {{ work.writer.profile.bio|linebreaks }}
+                    <p><a class="btn btn-default"
+                          href="{% url 'accounts:profile.detail' username=work.writer.username %}" role="button">View
+                        details &raquo;</a></p>
+                </div>
+            </div>
+            <div class="row">
+                {% if user == work.writer or has_membership %}
+                    <hr class="featurette-divider">
+                    <table class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans 'User' %}</th>
+                            <th>{% trans 'Status' %}</th>
+                            <th>{% trans 'Requested Date' %}</th>
+                            <th>{% trans 'Joined Date' %}</th>
+                            <th>{% trans 'Update' %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for membership in membership_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <a href="{% url 'accounts:profile.detail' username=membership.member.username %}">{{ membership.member.username }}</a>
+                                </td>
+                                <td>{{ membership.get_status_display }}</td>
+                                <td>{{ membership.requested_date }}</td>
+                                <td>{% if membership.joined_date %}{{ membership.joined_date }}{% endif %}</td>
+                                <td>
+                                    <a href="{% url 'job:membership.update' work_pk=membership.work.pk pk=membership.pk %}"
+                                       class="btn btn-link" id="id_work_membership_update">{% trans 'Update' %}</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    {% if user == work.writer %}
+        <a href="{% url 'gallery:portfolio.create_for_work' work_pk=work.pk %}" class="btn btn-default btn-lg btn-block" id="id_portfolio_create">
+            <i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Work Portfolio' %}
+        </a><br/>
+    {% endif %}
+
+    {% for portfolio in portfolio_list %}
+    {% if forloop.counter0|divisibleby:3 %}
+    <!-- Content Row -->
+    <div class="row">
+    {% endif %}
+        <div class="col-lg-4">
+            <div class="list-job">
+                <a href="{% url 'gallery:portfolio.detail' pk=portfolio.pk %}" class="list-job-item">
+                    <h4 class="list-job-item-heading">
+                        <img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}" width="100%">
+                    </h4>
+                    <p class="list-job-item-text">
+                        {{ portfolio.description|linebreaks }}
+                        <small>by {{ portfolio.writer }} on {{ portfolio.created_time|naturaltime }}</small><br/>
+                        <span class="badge" id="badge-comment-{{ portfolio.pk }}"><i class="{% has_portfolio_comment portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.comment_set.all|length }}</span>
+                        <span class="badge" id="badge-apply-{{ portfolio.pk }}"><i class="{% has_portfolio_comment portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.apply_count }}</span>
+                        <span class="badge" id="badge-share-{{ portfolio.pk }}"><i class="{% has_portfolio_share portfolio username=request.user.username %}" aria-hidden="true"></i> {{ portfolio.share_count }}</span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+    <!-- /.row -->
+    {% endif %}
+    {% empty %}
+    <p>{% trans 'No item exists yet.' %}</p>
+    {% endfor %}
+
+
+{% endblock %}
+
+{% block extrascript %}
+    <script type="text/javascript">
+        $("i[id*='i-friend-']").click(function (event) {
+            event.preventDefault();
+            var element = this;
+            $.ajax({
+                method: "POST",
+                url: $(this).parents().attr("href"),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function (data, textStatus, jqXHR) {
+                    $(data.span).text(data.count);
+                    $(element).removeClass();
+                    $(element).addClass(data.class);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("error >>> " + textStatus);
+                }
+            }).done(function () {
+                console.log("done");
+            });
+        });
+
+        $("p a i.fa").click(function (event) {
+            event.preventDefault();
+            var element = this;
+            $.ajax({
+                method: "POST",
+                url: $(this).parents().attr("href"),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function (data, textStatus, jqXHR) {
+                    $(data.span).text(data.count);
+                    $(element).removeClass();
+                    $(element).addClass(data.class);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("error >>> " + textStatus);
+                }
+            }).done(function () {
+                console.log("done");
+            });
+        });
+
+        $("#form-comment").submit(function (event) {
+            if (!$("#id_content").val()) {
+                $("#id_content").attr("placeholder", "Type some contents here");
+                $("#id_div_content").addClass("has-error");
+                event.preventDefault();
+            }
+        });
+        $("[id^='id_work'], #id_portfolio_create").click(function (event) {
+            event.preventDefault();
+            var element = this;
+            $.ajax({
+                method: "GET",
+                url: $(this).attr("href"),
+                contextType: "application/json; charset=utf-8",
+                dataType: "html",
+                data: {},
+                success: function (data, textStatus, jqXHR) {
+                    $("#id_row_modal").children().replaceWith(data);
+                    $("#" + $(element).attr("id") + "_modal").modal();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("error >>> " + textStatus);
+                }
+            }).done(function () {
+                console.log("done");
+            });
+        });
+    </script>
+{% endblock %}

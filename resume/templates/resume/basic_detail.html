@@ -1,0 +1,23 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content_title %}<h1>{{ basic.writer.username }}'s {% trans 'Basic' %}</h1>{% endblock %}
+{% block content_menu %}
+    <a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% trans 'Basic Information' %}
+            &nbsp;<a href="{% url 'resume:basic.update' pk=basic.pk %}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel-body">
+            {{ basic.full_name }}, {{ basic.job_title }}, {{ basic.location }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "blog/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<h2>{{ post.title }}
+<span class="text-muted">
+{% if user.is_authenticated %}
+    {% if post.writer.profile.status == 'A' %}
+        &nbsp;<i class="fa fa-unlock" aria-hidden="true"></i>
+    {% else %}
+        &nbsp;<i class="fa fa-lock" aria-hidden="true"></i>
+    {% endif %}
+{% endif %}
+<a href="{% url 'accounts:profile.detail' username=post.writer.username %}">{{ post.writer }}</a> on {{ post.created_time|naturaltime }}
+{% if user.is_authenticated and post.writer == request.user %}
+    &nbsp;<a href="{% url 'blog:post.update' section=section pk=post.pk %}" id="id_post_update"><i class="fa fa-cog" aria-hidden="true" id="i-update-{{ post.pk }}"></i></a>
+    &nbsp;<a href="{% url 'blog:post.delete' section=section pk=post.pk %}" id="id_post_delete"><i class="fa fa-trash" aria-hidden="true" id="i-delete-{{ post.pk }}"></i></a>
+{% endif %}<br/>
+</span>
+</h2>
+<hr class="featurette-divider">
+<div class="row featurette">
+    <div class="col-lg-7 col-lg-push-5">
+        <div class="row">
+            <div class="col-lg-offset-1 col-lg-5">
+                <img class="img-circle" src="{{ post.writer.profile.picture.url }}" alt="{{ post.wirter.username }}" width="140" height="140">
+                <h2><a href="{% url 'accounts:profile.detail' username=post.writer.username %}">{{ post.writer }}</a></h2>
+            </div>
+            <div class="col-lg-5">
+                {{ post.writer.profile.bio|linebreaks }}
+                <p><a class="btn btn-default" href="{% url 'accounts:profile.detail' username=post.writer.username %}" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-5 col-lg-pull-7">
+        <img class="img-thumbnail" src="{{ post.image.url }}" alt="{{ post.title }}" width="500px">
+        {{ post.categories }}
+        <p>
+            &nbsp;&nbsp;<span class="badge" id="badge-comment-{{ post.pk }}">{{ post.comment_set.all|length }}</span>
+        </p>
+    </div>
+    <hr class="featurette-divider">
+    <p class="lead">{{ post.content|linebreaksbr }}</p>
+</div>
+<hr class="featurette-divider">
+<div class="row featurette">
+    <div class="col-lg-offset-2 col-lg-8">
+        {% if user.is_authenticated %}
+            <form class="form-horizontal" action="{% url 'blog:comment.create' section=section pk=post.pk %}"
+                  method="post" enctype="multipart/form-data" id="form-comment">
+                {% csrf_token %}
+                <div class="{% if comment_form.content.errors %}has-error{% endif %}" id="id_div_content">
+                    {{ comment_form.content }}
+                </div>
+            </form>
+        {% endif %}<br/>
+        {% for comment in post.comment_set.all %}
+            <a href="{% url 'accounts:profile.detail' username=comment.writer.username %}">{{ comment.writer.username }}</a>
+            {{ comment.content }}
+            {% if comment.writer == request.user %}
+                &nbsp;<a href="{% url 'blog:comment.delete' section=section post_pk=post.pk pk=comment.pk %}" id="id_post_comment_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            {% endif %}
+            <br/>
+        {% empty %}
+            <p class="text-muted"><i>No comment exists yet.</i></p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("i[id*='i-friend-']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("p a i.fa").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "POST",
+            url: $(this).parents().attr("href"),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data, textStatus, jqXHR){
+                $(data.span).text(data.count);
+                $(element).removeClass();
+                $(element).addClass(data.class);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+
+    $("#form-comment").submit(function(event){
+       if(!$("#id_content").val()) {
+           $("#id_content").attr("placeholder", "Type some contents here");
+           $("#id_div_content").addClass("has-error");
+           event.preventDefault();
+       }
+    });
+    $("[id^='id_post']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

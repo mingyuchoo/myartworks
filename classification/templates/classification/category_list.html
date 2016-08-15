@@ -1,0 +1,61 @@
+{% extends "classification/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+
+{% block content %}
+<div class="col-lg-offset-2 col-lg-8">
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'classification:category.create' %}" class="btn btn-default btn-lg btn-block" id="id_category_create"><i class="fa fa-plus" aria-hidden="true"></i> {% trans 'Create Category' %}</a><br/>
+    {% endif %}
+    {% for category in category_list %}
+        <h4>{{ category.name }}</h4>
+        By <a href="{% url 'accounts:profile.detail' username=category.writer.username %}">{{ category.writer.username }}</a>
+            on {{ category.created_time|naturaltime }}
+            {% if user.is_authenticated and category.writer == request.user %}
+                &nbsp;<a href="{% url 'classification:category.update' pk=category.id %}" id="id_category_update"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                &nbsp;<a href="{% url 'classification:category.delete' pk=category.id %}" id="id_category_delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            {% endif %}
+
+        <hr class="featurette-divider">
+    {% empty %}
+        <p>No category exists yet.</p>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<ul class="pager">
+    {% if page_obj.has_previous %}
+  <li><a href="{% url 'classification:category.list' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+  <li><a href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+    {% if page_obj.has_next %}
+  <li><a href="{% url 'classification:category.list' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $("[id^='id_category']").click(function(event){
+        event.preventDefault();
+        var element = this;
+        $.ajax({
+            method: "GET",
+            url: $(this).attr("href"),
+            contextType: "application/json; charset=utf-8",
+            dataType: "html",
+            data: {},
+            success: function(data, textStatus, jqXHR){
+                $("#id_row_modal").children().replaceWith(data);
+                $("#"+$(element).attr("id")+"_modal").modal();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("error >>> " + textStatus);
+            }
+        }).done(function(){
+            console.log("done");
+        });
+    });
+</script>
+{% endblock %}

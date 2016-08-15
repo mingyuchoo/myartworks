@@ -1,0 +1,31 @@
+{% extends "common/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+{% block content %}
+
+<h1><strong>{{ user.username }}</strong>'s group list</h1>
+
+<form method="post" action="{% url 'accounts:search'%}">{% csrf_token %}
+    <div class="input-group">
+        <input class="form-control" type="text"  name="search">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">{% trans 'Submit' %}</button>
+        </span>
+    </div>
+</form>
+
+<div>
+    <h2>Groups</h2>
+    {% if groups %}
+    <ul class="list-group">
+        {% for group in groups %}
+        <li class="list-group-item"><a href="{% url 'accounts:profile.detail' username=group %}">{{ group }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        {% trans 'You are not joined any group yet.' %}
+    {% endif %}
+    
+</div>
+
+{% endblock %}

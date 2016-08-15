@@ -1,0 +1,15 @@
+{% extends "resume/base_site.html" %}
+{% load i18n static %}{% load humanize %}
+
+{% block content_menu %}
+<a href="{% url 'resume:index' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'Resume' %}</a>
+{% endblock %}
+
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <h2>Are you sure you want to delete "{{ certificate }}"?</h2>
+    <a class="btn btn-default" href="{% url 'resume:certificate.detail' pk=certificate.pk %}"><i class="fa fa-times" aria-hidden="true"></i> {% trans 'Cancel' %}</a>
+    <input class="btn btn-danger" type="submit" value="Confirm"/>
+</form>
+{% endblock %}

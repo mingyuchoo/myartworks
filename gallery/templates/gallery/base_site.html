@@ -1,0 +1,3 @@
+{% extends "common/base.html" %}
+{% load i18n static %}{% load humanize %}
+{% block title %}{{ title|default:_('Home') }} | {{ site_title|default:_('MyArtworks') }}{% endblock %}
