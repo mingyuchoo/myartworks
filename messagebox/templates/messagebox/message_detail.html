@@ -14,7 +14,7 @@
 
             <hr class="featurette-divider">
             <a class="btn btn-link" href="{% url 'messagebox:message.list' %}">Cancel</a>
-            {% if message.box == 'I' and message.status = 'R' %}
+            {% if message.box == 'I' and message.status == 'R' %}
             <a class="btn btn-default" href="{% url 'messagebox:message.reply' pk=message.pk %}">Reply</a>
             {% endif %}
             {% if message.box == 'I' %}
