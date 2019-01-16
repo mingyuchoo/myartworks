@@ -55,7 +55,7 @@ pyzmq==15.4.0
 qtconsole==4.2.1
 readme==0.7.1
 readme-renderer==0.7.0
-requests==2.11.0
+requests==2.20.0
 restview==2.6.1
 scipy==0.18.0
 selenium==2.53.6
