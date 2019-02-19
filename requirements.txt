@@ -4,7 +4,7 @@ beautifulsoup4==4.5.1
 bleach==1.4.3
 cycler==0.10.0
 decorator==4.0.10
-Django==1.11.18
+Django==2.1.7
 django-filter==0.14.0
 django-guardian==1.4.5
 django-haystack==2.5.0
