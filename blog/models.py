@@ -2,7 +2,8 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class Section(models.Model):
@@ -10,7 +11,7 @@ class Section(models.Model):
     Section class for Blog
     """
     name = models.CharField(max_length=50)
-    writer = models.ForeignKey(User, related_name='blog_sections')
+    writer = models.ForeignKey(User, related_name='blog_sections', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -27,11 +28,11 @@ class Post(models.Model):
     """
     Post class
     """
-    section = models.ForeignKey(Section)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to=''.join(['blog/', time.strftime('%Y%m%d'), '/']), blank=True, null=True)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='blog_posts')
+    writer = models.ForeignKey(User, related_name='blog_posts', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -57,9 +58,9 @@ class Comment(models.Model):
     """
     Comment class
     """
-    post = models.ForeignKey(Post)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='blog_comments')
+    writer = models.ForeignKey(User, related_name='blog_comments', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:

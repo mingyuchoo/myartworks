@@ -21,9 +21,9 @@ class Message(models.Model):
         ]
         # unique_together = ((),)
 
-    thread = models.ForeignKey('self', blank=True, null=True)
-    sender = models.ForeignKey(User, related_name='senders')
-    receiver = models.ForeignKey(User, related_name='receivers')
+    thread = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name='senders', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='receivers', on_delete=models.CASCADE)
     content = models.TextField(max_length=2000)
     status = models.CharField(max_length=1, default='S', choices=STATUS, blank=False)
     box = models.CharField(max_length=1, default='I', choices=BOX, blank=False)

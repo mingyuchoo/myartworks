@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 from classification.models import Category
 from organization.models import Team
 
@@ -18,11 +18,11 @@ class Project(models.Model):
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5120)
-    manager = models.ForeignKey(User, related_name='group_project_leaders')
+    manager = models.ForeignKey(User, related_name='group_project_leaders', on_delete=models.CASCADE)
     member = models.ManyToManyField(User, through='Membership')
     status = models.CharField(max_length=1, choices=STATUS, default='O')
-    writer = models.ForeignKey(User, related_name='group_projects', null=True)
-    team = models.ForeignKey(Team, null=True)
+    writer = models.ForeignKey(User, related_name='group_projects', null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
     category = models.ManyToManyField(Category)
@@ -79,9 +79,9 @@ class Comment(models.Model):
     """
     Comment class
     """
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='project_comments')
+    writer = models.ForeignKey(User, related_name='project_comments', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -103,8 +103,8 @@ class Bookmark(models.Model):
     """
     Bookmark class
     """
-    project = models.ForeignKey(Project)
-    writer = models.ForeignKey(User, related_name='project_bookmarks')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='project_bookmarks', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -126,8 +126,8 @@ class Apply(models.Model):
     """
     Apply class
     """
-    project = models.ForeignKey(Project)
-    writer = models.ForeignKey(User, related_name='project_applies')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='project_applies', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -149,8 +149,8 @@ class Share(models.Model):
     """
     Share class
     """
-    project = models.ForeignKey(Project)
-    writer = models.ForeignKey(User, related_name='project_shares')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='project_shares', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:

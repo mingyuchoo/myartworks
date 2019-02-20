@@ -2,7 +2,8 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class Basic(models.Model):
@@ -84,7 +85,7 @@ class Career(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     details = models.CharField(max_length=5000)
-    writer = models.ForeignKey(User, related_name='resume_careers')
+    writer = models.ForeignKey(User, related_name='resume_careers', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -111,7 +112,7 @@ class Education(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     details = models.CharField(max_length=5000)
-    writer = models.ForeignKey(User, related_name='resume_educations')
+    writer = models.ForeignKey(User, related_name='resume_educations', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -134,7 +135,7 @@ class Award(models.Model):
     title = models.CharField(max_length=50)
     organization = models.CharField(max_length=50)
     website = models.CharField(max_length=50)
-    writer = models.ForeignKey(User, related_name='resume_awards')
+    writer = models.ForeignKey(User, related_name='resume_awards', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -159,7 +160,7 @@ class Certificate(models.Model):
     organization = models.CharField(max_length=50)
     website = models.CharField(max_length=50)
     acquisition_date = models.DateField()
-    writer = models.ForeignKey(User, related_name='resume_certificates')
+    writer = models.ForeignKey(User, related_name='resume_certificates', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -181,7 +182,7 @@ class Language(models.Model):
     """
     name = models.CharField(max_length=50)
     level = models.CharField(max_length=50)
-    writer = models.ForeignKey(User, related_name='resume_languages')
+    writer = models.ForeignKey(User, related_name='resume_languages', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 
@@ -203,7 +204,7 @@ class Skill(models.Model):
     """
     name = models.CharField(max_length=50)
     level = models.CharField(max_length=50)
-    writer = models.ForeignKey(User, related_name='resume_skills')
+    writer = models.ForeignKey(User, related_name='resume_skills', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
 

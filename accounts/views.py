@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse, reverse_lazy, resolve
+from django.urls import reverse, reverse_lazy, resolve
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404

@@ -1,40 +1,40 @@
-"""myartworks URL Configuration
+"""django_study URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
+    https://docs.djangoproject.com/en/2.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.conf import settings
 
 
 urlpatterns = [
-    url(r'^', include('common.urls', namespace='common')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'^classification/', include('classification.urls', namespace='classification')),
-    url(r'^gallery/', include('gallery.urls', namespace='gallery')),
-    url(r'^job/', include('job.urls', namespace='job')),
-    url(r'^resume/', include('resume.urls', namespace='resume')),
-    url(r'^group/', include('group.urls', namespace='group')),
-    url(r'^organization/', include('organization.urls', namespace='organization')),
-    url(r'^messagebox/', include('messagebox.urls', namespace='messagebox')),
-    url(r'^blog/', include('blog.urls', namespace='blog')),
+    url('', include(('common.urls', 'common'), namespace='common')),
+    url('admin/', admin.site.urls),
+    url('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
+    url('blog/', include(('blog.urls', 'blog'), namespace='blog')),
+    url('classification/', include(('classification.urls', 'classification'), namespace='classification')),
+    url('gallery/', include(('gallery.urls', 'gallery'), namespace='gallery')),
+    url('job/', include(('job.urls', 'job'), namespace='job')),
+    url('messagebox/', include(('messagebox.urls', 'messagebox'), namespace='messagebox')),
+    url('resume/', include(('resume.urls', 'resume'), namespace='resume')),
+    url('group/', include(('group.urls', 'group'), namespace='group')),
+    # url('organization/', include(('organization.urls', 'organization'), namespace='organization')),
 ]
 
 urlpatterns += [
-    url(r'^search/', include('haystack.urls', namespace='search')),
+    url(r'^search/', include(('haystack.urls', 'haystack'), namespace='search')),
 ]
 
 if settings.DEBUG:

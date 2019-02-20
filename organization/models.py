@@ -1,9 +1,7 @@
-import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-
+from django.urls import reverse
 from classification.models import Category
 
 from taggit.managers import TaggableManager
@@ -18,10 +16,10 @@ class Team(models.Model):
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5120)
-    leader = models.ForeignKey(User, related_name='organization_team_leaders')
+    leader = models.ForeignKey(User, related_name='organization_team_leaders', on_delete=models.CASCADE)
     member = models.ManyToManyField(User, through='Membership')
     status = models.CharField(max_length=1, choices=STATUS, default='O')
-    writer = models.ForeignKey(User, related_name='organization_teams')
+    writer = models.ForeignKey(User, related_name='organization_teams', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
     category = models.ManyToManyField(Category)
@@ -78,9 +76,9 @@ class Comment(models.Model):
     """
     Comment class
     """
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='team_comments')
+    writer = models.ForeignKey(User, related_name='team_comments', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -102,8 +100,8 @@ class Bookmark(models.Model):
     """
     Bookmark class
     """
-    team = models.ForeignKey(Team)
-    writer = models.ForeignKey(User, related_name='team_bookmarks')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_bookmarks', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -125,8 +123,8 @@ class Apply(models.Model):
     """
     Apply class
     """
-    team = models.ForeignKey(Team)
-    writer = models.ForeignKey(User, related_name='team_applies')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_applies', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -148,8 +146,8 @@ class Share(models.Model):
     """
     Share class
     """
-    team = models.ForeignKey(Team)
-    writer = models.ForeignKey(User, related_name='team_shares')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_shares', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:

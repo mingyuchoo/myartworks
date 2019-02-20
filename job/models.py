@@ -2,8 +2,8 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 from classification.models import Category
 from group.models import Project
 from organization.models import Team
@@ -18,9 +18,9 @@ class Work(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=2048)
     category = models.ManyToManyField(Category)
-    writer = models.ForeignKey(User, null=True)
-    team = models.ForeignKey(Team, null=True)
-    project = models.ForeignKey(Project, null=True)
+    writer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
     comment_count = models.IntegerField(default=0)
@@ -48,9 +48,9 @@ class Comment(models.Model):
     """
     Comment class
     """
-    work = models.ForeignKey(Work)
+    work = models.ForeignKey(Work, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='work_comments')
+    writer = models.ForeignKey(User, related_name='work_comments', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -72,8 +72,8 @@ class Bookmark(models.Model):
     """
     Bookmark class
     """
-    work = models.ForeignKey(Work)
-    writer = models.ForeignKey(User, related_name='work_bookmarks')
+    work = models.ForeignKey(Work, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='work_bookmarks', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -95,8 +95,8 @@ class Apply(models.Model):
     """
     Apply class
     """
-    work = models.ForeignKey(Work)
-    writer = models.ForeignKey(User, related_name='work_applies')
+    work = models.ForeignKey(Work, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='work_applies', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -118,8 +118,8 @@ class Share(models.Model):
     """
     Share class
     """
-    work = models.ForeignKey(Work)
-    writer = models.ForeignKey(User, related_name='work_shares')
+    work = models.ForeignKey(Work, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='work_shares', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:

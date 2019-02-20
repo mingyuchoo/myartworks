@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
 
-from .models import Profile, Friend
+from .models import Profile, Friend, Credit
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -13,5 +12,10 @@ class FriendAdmin(admin.ModelAdmin):
     pass
 
 
+class CreditAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Friend, FriendAdmin)
+admin.site.register(Credit, CreditAdmin)
+

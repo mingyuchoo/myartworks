@@ -2,8 +2,8 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 from classification.models import Category
 from group.models import Project
 from organization.models import Team
@@ -21,10 +21,10 @@ class Portfolio(models.Model):
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=200)
     category = models.ManyToManyField(Category)
-    writer = models.ForeignKey(User, null=True)
-    project = models.ForeignKey(Project, null=True)
-    team = models.ForeignKey(Team, null=True)
-    work = models.ForeignKey(Work, null=True)
+    writer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
+    work = models.ForeignKey(Work, null=True, on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
     comment_count = models.IntegerField(default=0)
@@ -52,9 +52,9 @@ class Comment(models.Model):
     """
     Comment class
     """
-    portfolio = models.ForeignKey(Portfolio)
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='gallery_comments')
+    writer = models.ForeignKey(User, related_name='gallery_comments', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -76,8 +76,8 @@ class Like(models.Model):
     """
     Like class
     """
-    portfolio = models.ForeignKey(Portfolio)
-    writer = models.ForeignKey(User, related_name='gallery_likes')
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='gallery_likes', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -96,8 +96,8 @@ class Share(models.Model):
     """
     Share class
     """
-    portfolio = models.ForeignKey(Portfolio)
-    writer = models.ForeignKey(User, related_name='gallery_shares')
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='gallery_shares', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -119,8 +119,8 @@ class Report(models.Model):
     """
     Report class
     """
-    portfolio = models.ForeignKey(Portfolio)
-    writer = models.ForeignKey(User, related_name='gallery_reports')
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='gallery_reports', on_delete=models.CASCADE)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
