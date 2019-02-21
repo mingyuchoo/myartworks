@@ -30,7 +30,7 @@ urlpatterns = [
     url('messagebox/', include(('messagebox.urls', 'messagebox'), namespace='messagebox')),
     url('resume/', include(('resume.urls', 'resume'), namespace='resume')),
     url('group/', include(('group.urls', 'group'), namespace='group')),
-    # url('organization/', include(('organization.urls', 'organization'), namespace='organization')),
+    url('organization/', include(('organization.urls', 'organization'), namespace='organization')),
 ]
 
 urlpatterns += [

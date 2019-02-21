@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 from classification.models import Category
 from organization.models import Team
@@ -33,9 +32,7 @@ class Project(models.Model):
     tags = TaggableManager()
 
     class Meta:
-        permissions = [
-            ['view_project', 'Can view project'],
-        ]
+        pass
 
     def __str__(self):
         return self.name
@@ -64,9 +61,7 @@ class Membership(models.Model):
     joined_date = models.DateTimeField(null=True)
 
     class Meta:
-        permissions = [
-            ['view_membership', 'Can view membership'],
-        ]
+        pass
 
     def get_absolute_url(self):
         return reverse('group:project.detail', kwargs={'pk': str(self.project.pk)})
@@ -85,9 +80,7 @@ class Comment(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_comment', 'Can view comment'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -108,9 +101,7 @@ class Bookmark(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_bookmark', 'Can view bookmark'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -131,9 +122,7 @@ class Apply(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_apply', 'Can view apply'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -154,9 +143,7 @@ class Share(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_share', 'Can view share'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)

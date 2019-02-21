@@ -1,8 +1,6 @@
-import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 
 
@@ -18,9 +16,7 @@ class Basic(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_basic', 'Can view basic'],
-        ]
+        pass
 
     def __str__(self):
         return "{}:{}".format(self.pk, self.full_name)
@@ -42,9 +38,7 @@ class Contact(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_contact', 'Can view contact'],
-        ]
+       pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.email)
@@ -63,9 +57,7 @@ class Letter(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_letter', 'Can view letter'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.writer.pk, self.writer.username)
@@ -90,9 +82,7 @@ class Career(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_career', 'Can view career'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.company)
@@ -117,9 +107,7 @@ class Education(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_education', 'Can view education'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.school)
@@ -140,9 +128,7 @@ class Award(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_award', 'Can view award'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.title)
@@ -165,9 +151,7 @@ class Certificate(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_certificate', 'Can view certificate'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.title)
@@ -187,9 +171,7 @@ class Language(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_language', 'Can view language'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.name)
@@ -209,9 +191,7 @@ class Skill(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_skill', 'Can view skill'],
-        ]
+        pass
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.name)

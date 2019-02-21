@@ -16,10 +16,10 @@ class Team(models.Model):
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5120)
-    leader = models.ForeignKey(User, related_name='organization_team_leaders', on_delete=models.CASCADE)
+    leader = models.ForeignKey(User, related_name='organization_team_leaders', on_delete=models.DO_NOTHING)
     member = models.ManyToManyField(User, through='Membership')
     status = models.CharField(max_length=1, choices=STATUS, default='O')
-    writer = models.ForeignKey(User, related_name='organization_teams', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='organization_teams', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(default=timezone.now)
     category = models.ManyToManyField(Category)
@@ -30,9 +30,7 @@ class Team(models.Model):
     tags = TaggableManager()
 
     class Meta:
-        permissions = [
-            ['view_team', 'Can view team'],
-        ]
+        pass
 
     def __str__(self):
         return self.name
@@ -53,17 +51,15 @@ class Membership(models.Model):
         ('D', 'Denied'),
         ('A', 'Approved'),
     )
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organization_team_members')
+    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING)
+    member = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='organization_team_members')
     status = models.CharField(max_length=1, choices=STATUS, default='R')
     updated_time = models.DateTimeField(default=timezone.now)
     requested_date = models.DateField(default=timezone.now)
     joined_date = models.DateField(null=True)
 
     class Meta:
-        permissions = [
-            ['view_membership', 'Can view membership'],
-        ]
+        pass
 
     def get_absolute_url(self):
         return reverse('organization:team.detail', kwargs={'pk': str(self.team.pk)})
@@ -78,13 +74,11 @@ class Comment(models.Model):
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
-    writer = models.ForeignKey(User, related_name='team_comments', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_comments', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_comment', 'Can view comment'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -101,13 +95,11 @@ class Bookmark(models.Model):
     Bookmark class
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    writer = models.ForeignKey(User, related_name='team_bookmarks', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_bookmarks', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_bookmark', 'Can view bookmark'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -124,13 +116,11 @@ class Apply(models.Model):
     Apply class
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    writer = models.ForeignKey(User, related_name='team_applies', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_applies', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_apply', 'Can view apply'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -147,13 +137,11 @@ class Share(models.Model):
     Share class
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    writer = models.ForeignKey(User, related_name='team_shares', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, related_name='team_shares', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_share', 'Can view share'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)

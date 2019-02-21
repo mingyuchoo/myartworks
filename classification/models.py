@@ -1,8 +1,6 @@
-import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 
 
@@ -17,9 +15,7 @@ class Category(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_category', 'Can view category'],
-        ]
+        pass
 
     def __str__(self):
         return self.name
@@ -39,9 +35,7 @@ class Field(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_field', 'Can view field'],
-        ]
+        pass
 
     def __str__(self):
         return self.name

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'job.apps.JobConfig',
     'resume.apps.ResumeConfig',
     'group.apps.GroupConfig',
-    # 'organization.apps.OrganizationConfig',
+    'organization.apps.OrganizationConfig',
     'blog.apps.BlogConfig',
     'messagebox.apps.MessageboxConfig',
     'widget_tweaks',
@@ -62,7 +62,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -140,10 +139,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'static'),
-# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # for Heroku
+STATICFILES_DIRS = [ # for local test
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Media files
 MEDIA_URL = '/media/'

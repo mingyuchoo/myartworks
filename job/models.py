@@ -2,7 +2,6 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 from classification.models import Category
 from group.models import Project
@@ -30,9 +29,7 @@ class Work(models.Model):
     tags = TaggableManager()
 
     class Meta:
-        permissions = [
-            ['view_work', 'Can view work'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -54,9 +51,7 @@ class Comment(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_comment', 'Can view comment'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -77,9 +72,7 @@ class Bookmark(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_bookmark', 'Can view bookmark'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -100,9 +93,7 @@ class Apply(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_apply', 'Can view apply'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)
@@ -123,9 +114,7 @@ class Share(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_share', 'Can view share'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)

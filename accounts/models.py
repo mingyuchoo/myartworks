@@ -1,7 +1,6 @@
 import uuid, time
 from django.utils import timezone
 from django.db import models
-# from django.core.urlresolvers import reverse  # Django Version 1.10
 from django.urls import reverse # Django Version 2.1
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -42,9 +41,7 @@ class Profile(models.Model):
     tags = TaggableManager()
 
     class Meta:
-        permissions = [
-            ['view_profile', 'Can view profile', ]
-        ]
+        pass
 
     def __str__(self):
         return self.writer.username
@@ -59,9 +56,7 @@ class Friend(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_friend', 'Can view friend'],
-        ]
+        pass
 
     def __str__(self):
         return "{}:{}->{}".format(self.id, self.writer.username, self.friend.username)
@@ -79,9 +74,7 @@ class Credit(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_credit', 'Can view credit'],
-        ]
+        pass
 
     def __str__(self):
         return "{}".format(self.id)

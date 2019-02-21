@@ -2,7 +2,6 @@ import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 
 
@@ -37,9 +36,6 @@ class Post(models.Model):
     updated_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_post', 'Can view post'],
-        ]
         ordering = [
             '-created_time'
         ]
@@ -64,9 +60,6 @@ class Comment(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        permissions = [
-            ['view_comment', 'Can view comment'],
-        ]
         ordering = [
             '-created_time'
         ]

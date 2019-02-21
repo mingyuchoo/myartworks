@@ -16,10 +16,7 @@ class Message(models.Model):
     )
 
     class Meta:
-        permissions = [
-            ['view_message', 'Can view message', ]
-        ]
-        # unique_together = ((),)
+        pass
 
     thread = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
     sender = models.ForeignKey(User, related_name='senders', on_delete=models.CASCADE)
