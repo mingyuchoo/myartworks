@@ -1,16 +1,15 @@
-from django.conf.urls import url, include
-
+from django.urls import path
 from . import views
 
 app_name = 'blog'
 
 urlpatterns = [
-    url(r'^(?P<section>\w+)$', views.index, name='index'),
-    url(r'^(?P<section>\w+)/post/list/$', views.PostList.as_view(), name='post.list'),
-    url(r'^(?P<section>\w+)/post/create/$', views.PostCreate.as_view(), name='post.create'),
-    url(r'^(?P<section>\w+)/post/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name='post.detail'),
-    url(r'^(?P<section>\w+)/post/(?P<pk>[0-9]+)/update/$', views.PostUpdate.as_view(), name='post.update'),
-    url(r'^(?P<section>\w+)/post/(?P<pk>[0-9]+)/delete/$', views.PostDelete.as_view(), name='post.delete'),
-    url(r'^(?P<section>\w+)/post/(?P<pk>[0-9]+)/comment/create/$', views.CommentCreate.as_view(), name='comment.create'),
-    url(r'^(?P<section>\w+)/post/(?P<post_pk>[0-9]+)/comment/(?P<pk>[0-9]+)/delete/$', views.CommentDelete.as_view(), name='comment.delete'),
+    path('<section>', views.index, name='index'),
+    path('<section>/post/list/', views.PostList.as_view(), name='post.list'),
+    path('<section>/post/create/', views.PostCreate.as_view(), name='post.create'),
+    path('<section>/post/<pk>/', views.PostDetail.as_view(), name='post.detail'),
+    path('<section>/post/<pk>/update/', views.PostUpdate.as_view(), name='post.update'),
+    path('<section>/post/<pk>/delete/', views.PostDelete.as_view(), name='post.delete'),
+    path('<section>/post/<pk>/comment/create/', views.CommentCreate.as_view(), name='comment.create'),
+    path('<section>/post/<post_pk>/comment/<pk>/delete/', views.CommentDelete.as_view(), name='comment.delete'),
 ]

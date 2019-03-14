@@ -1,24 +1,24 @@
-from django.conf.urls import url, include
+from django.urls import path
 
 from . import views
 
 app_name = 'gallery'
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^portfolio/tile/$', views.PortfolioTile.as_view(), name='portfolio.tile'),
-    url(r'^portfolio/user/$', views.PortfolioUser.as_view(), name='portfolio.user'),
-    url(r'^portfolio/create_user/$', views.PortfolioCreate.as_view(), name='portfolio.create'),
-    url(r'^portfolio/create_project/(?P<project_pk>[0-9]+)/$', views.PortfolioCreateForProject.as_view(), name='portfolio.create_for_project'),
-    url(r'^portfolio/create_team/(?P<team_pk>[0-9]+)/$', views.PortfolioCreateForTeam.as_view(), name='portfolio.create_for_team'),
-    url(r'^portfolio/create_work/(?P<work_pk>[0-9]+)/$', views.PortfolioCreateForWork.as_view(), name='portfolio.create_for_work'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/$', views.PortfolioDetail.as_view(), name='portfolio.detail'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/update/$', views.PortfolioUpdate.as_view(), name='portfolio.update'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/friend/$', views.portfolio_toggle_friend, name='portfolio.friend'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/like/$', views.portfolio_toggle_like, name='portfolio.like'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/share/$', views.portfolio_toggle_share, name='portfolio.share'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/report/$', views.portfolio_report, name='portfolio.report'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/delete/$', views.PortfolioDelete.as_view(), name='portfolio.delete'),
-    url(r'^portfolio/(?P<pk>[0-9]+)/comment/create/$', views.CommentCreate.as_view(), name='comment.create'),
-    url(r'^portfolio/(?P<portfolio_pk>[0-9]+)/comment/(?P<pk>[0-9]+)/delete/$', views.CommentDelete.as_view(), name='comment.delete'),
+    path('', views.index, name='index'),
+    path('portfolio/tile/', views.PortfolioTile.as_view(), name='portfolio.tile'),
+    path('portfolio/user/', views.PortfolioUser.as_view(), name='portfolio.user'),
+    path('portfolio/create_user/', views.PortfolioCreate.as_view(), name='portfolio.create'),
+    path('portfolio/create_project/<project_pk>/', views.PortfolioCreateForProject.as_view(), name='portfolio.create_for_project'),
+    path('portfolio/create_team/<team_pk>/', views.PortfolioCreateForTeam.as_view(), name='portfolio.create_for_team'),
+    path('portfolio/create_work/<work_pk>/', views.PortfolioCreateForWork.as_view(), name='portfolio.create_for_work'),
+    path('portfolio/<pk>/', views.PortfolioDetail.as_view(), name='portfolio.detail'),
+    path('portfolio/<pk>/update/', views.PortfolioUpdate.as_view(), name='portfolio.update'),
+    path('portfolio/<pk>/friend/', views.portfolio_toggle_friend, name='portfolio.friend'),
+    path('portfolio/<pk>/like/', views.portfolio_toggle_like, name='portfolio.like'),
+    path('portfolio/<pk>/share/', views.portfolio_toggle_share, name='portfolio.share'),
+    path('portfolio/<pk>/report/', views.portfolio_report, name='portfolio.report'),
+    path('portfolio/<pk>/delete/', views.PortfolioDelete.as_view(), name='portfolio.delete'),
+    path('portfolio/<pk>/comment/create/', views.CommentCreate.as_view(), name='comment.create'),
+    path('portfolio/<portfolio_pk>/comment/<pk>/delete/', views.CommentDelete.as_view(), name='comment.delete'),
 ]

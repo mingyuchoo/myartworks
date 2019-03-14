@@ -1,13 +1,13 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^message/list/$', views.MessageList.as_view(), name='message.list'),
-    url(r'^message/create/$', views.MessageSend.as_view(), name='message.send'),
-    url(r'^message/(?P<pk>[0-9]+)/$', views.MessageDetail.as_view(), name='message.read'),
-    url(r'^message/(?P<pk>[0-9]+)/reply/$', views.MessageReply.as_view(), name='message.reply'),
-    url(r'^message/(?P<pk>[0-9]+)/archive/$', views.MessageArchive.as_view(), name='message.archive'),
-    url(r'^message/(?P<pk>[0-9]+)/delete/$', views.MessageDelete.as_view(), name='message.delete'),
+    path('', views.index, name='index'),
+    path('message/list/', views.MessageList.as_view(), name='message.list'),
+    path('message/create/', views.MessageSend.as_view(), name='message.send'),
+    path('message/<pk>/', views.MessageDetail.as_view(), name='message.read'),
+    path('message/<pk>/reply/', views.MessageReply.as_view(), name='message.reply'),
+    path('message/<pk>/archive/', views.MessageArchive.as_view(), name='message.archive'),
+    path('message/<pk>/delete/', views.MessageDelete.as_view(), name='message.delete'),
 ]

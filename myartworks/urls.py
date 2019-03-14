@@ -13,28 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
 from django.conf.urls.static import static
-from django.contrib import admin
+from django.urls import path
 from django.conf import settings
+from django.urls import include
+from django.contrib import admin
 
 
 urlpatterns = [
-    url('', include(('common.urls', 'common'), namespace='common')),
-    url('admin/', admin.site.urls),
-    url('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
-    url('blog/', include(('blog.urls', 'blog'), namespace='blog')),
-    url('classification/', include(('classification.urls', 'classification'), namespace='classification')),
-    url('gallery/', include(('gallery.urls', 'gallery'), namespace='gallery')),
-    url('job/', include(('job.urls', 'job'), namespace='job')),
-    url('messagebox/', include(('messagebox.urls', 'messagebox'), namespace='messagebox')),
-    url('resume/', include(('resume.urls', 'resume'), namespace='resume')),
-    url('group/', include(('group.urls', 'group'), namespace='group')),
-    url('organization/', include(('organization.urls', 'organization'), namespace='organization')),
+    path('', include(('common.urls', 'common'), namespace='common')),
+    path('admin/', admin.site.urls),
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
+    path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
+    path('classification/', include(('classification.urls', 'classification'), namespace='classification')),
+    path('gallery/', include(('gallery.urls', 'gallery'), namespace='gallery')),
+    path('job/', include(('job.urls', 'job'), namespace='job')),
+    path('messagebox/', include(('messagebox.urls', 'messagebox'), namespace='messagebox')),
+    path('resume/', include(('resume.urls', 'resume'), namespace='resume')),
+    path('group/', include(('group.urls', 'group'), namespace='group')),
+    path('organization/', include(('organization.urls', 'organization'), namespace='organization')),
 ]
 
 urlpatterns += [
-    url(r'^search/', include(('haystack.urls', 'haystack'), namespace='search')),
+    path('search/', include(('haystack.urls', 'haystack'), namespace='search')),
 ]
 
 if settings.DEBUG:
