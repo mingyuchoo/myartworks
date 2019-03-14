@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -12,8 +11,8 @@ class Basic(models.Model):
     full_name = models.CharField(max_length=50)
     job_title = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -34,8 +33,8 @@ class Contact(models.Model):
     phone1 = models.CharField(max_length=50)
     phone2 = models.CharField(max_length=50)
     website = models.CharField(max_length=50)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
        pass
@@ -53,8 +52,8 @@ class Letter(models.Model):
     """
     writer = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, )
     content = models.CharField(max_length=10000)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -78,8 +77,8 @@ class Career(models.Model):
     end_date = models.DateField()
     details = models.CharField(max_length=5000)
     writer = models.ForeignKey(User, related_name='resume_careers', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -103,8 +102,8 @@ class Education(models.Model):
     end_date = models.DateField()
     details = models.CharField(max_length=5000)
     writer = models.ForeignKey(User, related_name='resume_educations', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -124,8 +123,8 @@ class Award(models.Model):
     organization = models.CharField(max_length=50)
     website = models.CharField(max_length=50)
     writer = models.ForeignKey(User, related_name='resume_awards', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -147,8 +146,8 @@ class Certificate(models.Model):
     website = models.CharField(max_length=50)
     acquisition_date = models.DateField()
     writer = models.ForeignKey(User, related_name='resume_certificates', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -167,8 +166,8 @@ class Language(models.Model):
     name = models.CharField(max_length=50)
     level = models.CharField(max_length=50)
     writer = models.ForeignKey(User, related_name='resume_languages', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -187,8 +186,8 @@ class Skill(models.Model):
     name = models.CharField(max_length=50)
     level = models.CharField(max_length=50)
     writer = models.ForeignKey(User, related_name='resume_skills', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

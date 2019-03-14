@@ -1,6 +1,5 @@
 import time
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from classification.models import Category
@@ -8,6 +7,7 @@ from group.models import Project
 from organization.models import Team
 
 from taggit.managers import TaggableManager
+
 
 class Work(models.Model):
     """
@@ -20,8 +20,8 @@ class Work(models.Model):
     writer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
     comment_count = models.IntegerField(default=0)
     bookmark_count = models.IntegerField(default=0)
     apply_count = models.IntegerField(default=0)
@@ -48,7 +48,7 @@ class Comment(models.Model):
     work = models.ForeignKey(Work, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='work_comments', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -69,7 +69,7 @@ class Bookmark(models.Model):
     """
     work = models.ForeignKey(Work, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='work_bookmarks', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -90,7 +90,7 @@ class Apply(models.Model):
     """
     work = models.ForeignKey(Work, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='work_applies', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -111,7 +111,7 @@ class Share(models.Model):
     """
     work = models.ForeignKey(Work, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='work_shares', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

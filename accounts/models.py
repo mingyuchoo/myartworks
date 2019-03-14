@@ -1,7 +1,6 @@
 import uuid, time
-from django.utils import timezone
 from django.db import models
-from django.urls import reverse # Django Version 2.1
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
@@ -53,7 +52,7 @@ class Friend(models.Model):
     """
     writer = models.ForeignKey(User, related_name="accounts_friends", on_delete=models.CASCADE)
     friend = models.ForeignKey(User, related_name="accounts_friend_friends", on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -71,7 +70,7 @@ class Credit(models.Model):
     """
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='profile_credits', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

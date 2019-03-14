@@ -1,6 +1,5 @@
 import time
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from classification.models import Category
@@ -24,8 +23,8 @@ class Portfolio(models.Model):
     project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     work = models.ForeignKey(Work, null=True, on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
     comment_count = models.IntegerField(default=0)
     like_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
@@ -52,7 +51,7 @@ class Comment(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='gallery_comments', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -73,7 +72,7 @@ class Like(models.Model):
     """
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='gallery_likes', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -91,7 +90,7 @@ class Share(models.Model):
     """
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='gallery_shares', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -112,7 +111,7 @@ class Report(models.Model):
     """
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='gallery_reports', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

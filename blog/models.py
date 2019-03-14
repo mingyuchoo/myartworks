@@ -1,6 +1,5 @@
 import time
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -11,8 +10,8 @@ class Section(models.Model):
     """
     name = models.CharField(max_length=50)
     writer = models.ForeignKey(User, related_name='blog_sections', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = [
@@ -32,8 +31,8 @@ class Post(models.Model):
     image = models.ImageField(upload_to=''.join(['blog/', time.strftime('%Y%m%d'), '/']), blank=True, null=True)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='blog_posts', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = [
@@ -57,7 +56,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='blog_comments', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = [

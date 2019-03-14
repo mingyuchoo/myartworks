@@ -1,10 +1,10 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from classification.models import Category
 
 from taggit.managers import TaggableManager
+
 
 class Team(models.Model):
     """
@@ -20,8 +20,8 @@ class Team(models.Model):
     member = models.ManyToManyField(User, through='Membership')
     status = models.CharField(max_length=1, choices=STATUS, default='O')
     writer = models.ForeignKey(User, related_name='organization_teams', on_delete=models.DO_NOTHING)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category)
     comment_count = models.IntegerField(default=0)
     bookmark_count = models.IntegerField(default=0)
@@ -54,8 +54,8 @@ class Membership(models.Model):
     team = models.ForeignKey(Team, on_delete=models.DO_NOTHING)
     member = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='organization_team_members')
     status = models.CharField(max_length=1, choices=STATUS, default='R')
-    updated_time = models.DateTimeField(default=timezone.now)
-    requested_date = models.DateField(default=timezone.now)
+    updated_time = models.DateTimeField(auto_now_add=True)
+    requested_date = models.DateField(auto_now_add=True)
     joined_date = models.DateField(null=True)
 
     class Meta:
@@ -75,7 +75,7 @@ class Comment(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='team_comments', on_delete=models.DO_NOTHING)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -96,7 +96,7 @@ class Bookmark(models.Model):
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='team_bookmarks', on_delete=models.DO_NOTHING)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -117,7 +117,7 @@ class Apply(models.Model):
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='team_applies', on_delete=models.DO_NOTHING)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -138,7 +138,7 @@ class Share(models.Model):
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='team_shares', on_delete=models.DO_NOTHING)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

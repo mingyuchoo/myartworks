@@ -1,11 +1,11 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from classification.models import Category
 from organization.models import Team
 
 from taggit.managers import TaggableManager
+
 
 class Project(models.Model):
     """
@@ -22,8 +22,8 @@ class Project(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default='O')
     writer = models.ForeignKey(User, related_name='group_projects', null=True, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
-    updated_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category)
     comment_count = models.IntegerField(default=0)
     bookmark_count = models.IntegerField(default=0)
@@ -56,8 +56,8 @@ class Membership(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group_project_members')
     status = models.CharField(max_length=1, choices=STATUS, default='R')
-    updated_time = models.DateTimeField(default=timezone.now)
-    requested_date = models.DateTimeField(default=timezone.now)
+    updated_time = models.DateTimeField(auto_now_add=True)
+    requested_date = models.DateTimeField(auto_now_add=True)
     joined_date = models.DateTimeField(null=True)
 
     class Meta:
@@ -77,7 +77,7 @@ class Comment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     writer = models.ForeignKey(User, related_name='project_comments', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -98,7 +98,7 @@ class Bookmark(models.Model):
     """
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='project_bookmarks', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -119,7 +119,7 @@ class Apply(models.Model):
     """
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='project_applies', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass
@@ -140,7 +140,7 @@ class Share(models.Model):
     """
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     writer = models.ForeignKey(User, related_name='project_shares', on_delete=models.CASCADE)
-    created_time = models.DateTimeField(default=timezone.now)
+    created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         pass

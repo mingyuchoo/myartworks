@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -24,7 +23,7 @@ class Message(models.Model):
     content = models.TextField(max_length=2000)
     status = models.CharField(max_length=1, default='S', choices=STATUS, blank=False)
     box = models.CharField(max_length=1, default='I', choices=BOX, blank=False)
-    send_time = models.DateTimeField(default=timezone.now)
+    send_time = models.DateTimeField(auto_now_add=True)
     receive_time = models.DateTimeField(blank=True, null=True)
     archive_time = models.DateTimeField(blank=True, null=True)
     delete_time = models.DateTimeField(blank=True, null=True)
